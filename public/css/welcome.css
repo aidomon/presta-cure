@@ -1,0 +1,150 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+}
+
+body {
+    font-family: "Open Sans", sans-serif;
+}
+h2 {
+    font-size: 30px;
+}
+a {
+    text-decoration: none;
+    color: white;
+}
+
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 60px;
+    background-color: #051736;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 10%;
+    padding-right: 10%;
+    color: white;
+}
+
+nav img {
+    height: 20px;
+}
+
+nav > div > a, #logout{
+    margin-left: 40px;
+}
+
+nav > div > a:hover, #logout:hover, .nav-scrolling > div #logout:hover {
+    color: #e2336f;
+}
+
+.nav-scrolling {
+    background-color: white;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+}
+.nav-scrolling > div > a, .nav-scrolling > div #logout {
+    color: #051736;
+}
+.logo-dark  {
+    display: none;
+}
+.nav-scrolling .logo-dark {
+    display: block;
+}
+.nav-scrolling .logo-bright {
+    display: none;
+}
+
+#banner {
+    margin-top: 60px;
+    padding: 50px 10%;
+    background-color: #051736;
+    color: white;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 480px;
+}
+
+#banner > div {
+    max-width: 55%;
+    margin-bottom: 50px;
+}
+
+#banner > div:nth-of-type(2) {
+    text-align: center;
+    width: 30%;
+}
+
+#banner h1 {
+    font-family: "Montserrat", sans-serif;
+    font-size: 42px;
+    margin-bottom: 30px;
+}
+
+#banner p {
+    font-size: 25px;
+    font-weight: 300;
+}
+#banner h2 {
+    font-weight: 500;
+    font-size: 28px;
+}
+#banner h2 > span {
+    cursor: pointer;
+}
+#banner > div > h2 > span:nth-of-type(2) {
+    color: #959595;
+}
+#banner form > div > input {
+    background-color: #051736;
+    border: 1px solid #e2336f;
+    border-radius: 10px;
+    color: white;
+    height: 35px;
+    width: 75%;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 15px;
+}
+#banner .login-btn-div, #banner .registration-btn-div{
+    display: flex;
+    flex-direction: column;
+}
+#banner .login-btn, #banner .registration-btn {
+    background-color: #e2336f;
+    border: none;
+    margin: 20px auto 10px auto;
+    color: white;
+    border-radius: 10px;
+    padding: 5px 40px;
+    font-size: 15px;
+    font-weight: 300;
+    cursor: pointer;
+}
+
+#banner .login-btn-div > a, #banner .registration-btn-div > a {
+    color: #959595;
+    font-size: 11px;
+}
+
+#how-it-works {
+    padding: 50px 10%;
+    height: 570px;
+    text-align: center;
+}
+hr {
+    height: 4px;
+    border-width: 0;
+    color: #e2336f;
+    background-color: #e2336f;
+    width: 40px;
+    margin: 10px auto 0 auto;
+}

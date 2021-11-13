@@ -1,0 +1,194 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+}
+
+body {
+    font-family: "Open Sans", sans-serif;
+    background-color: #f9f9fb;
+}
+h2 {
+    font-size: 30px;
+}
+a {
+    text-decoration: none;
+    /* color: white; */
+}
+
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: #051736;
+    width: 300px;
+    color: white;
+    overflow-x: hidden;
+    padding: 50px 0 0 50px;
+}
+nav > div {
+    position: relative;
+    height: 100%;
+}
+
+.credentials {
+    position: absolute;
+    left: 30px;
+    bottom: 50px;
+    text-align: center;
+}
+.credentials p {
+    margin-top: 10px;
+}
+.credentials img {
+    width: 100px;
+}
+.menu {
+    margin-top: 50px;
+}
+nav h1 {
+    font-family: "Nunito", sans-serif;
+    font-size: 35px;
+    color: #e2336f;
+}
+nav h2 {
+    display: block;
+    font-family: "Montserrat", sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 25px;
+}
+nav a {
+    color: white;
+}
+
+main {
+    margin-left: 300px;
+    position: relative;
+    padding: 85px 70px;
+}
+main h3 {
+    font-size: 30px;
+}
+main h4 {
+    font-size: 17px;
+    margin-bottom: 30px;
+}
+main button {
+    padding: 10px 20px;
+    font-size: 15px;
+    border-radius: 25px;
+    border: 1px solid #e2336f;
+    background-color: transparent;
+    cursor: pointer;
+}
+main button:hover {
+    background-color: #fafafa;
+}
+main button > div {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+main button > div > img {
+    margin-right: 10px;
+    height: 28px;
+}
+hr {
+    height: 4px;
+    border-width: 0;
+    color: #e2336f;
+    background-color: #e2336f;
+    width: 40px;
+    margin: 10px 0 0 0;
+}
+
+section {
+    background-color: white;
+    border-radius: 10px;
+    padding: 30px 30px;
+    margin: 30px auto;
+}
+
+#projects,
+#verifications {
+    display: inline-flex;
+}
+#projects a,
+#verifications a {
+    margin-right: 40px;
+}
+#projects div,
+#verifications div {
+    background-color: #fafafa;
+    border: 1px solid #e2336f;
+    border-radius: 5px;
+    width: 200px;
+    height: 100px;
+    position: relative;
+}
+#projects div > p,
+#verifications div > p {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #e2336f;
+    font-size: 17px;
+}
+
+#user-options button {
+    background-color: transparent;
+    border: none;
+    color: white;
+    margin-top: 50px;
+}
+#user-options button > div {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    font-family: Montserrat, sans-serif;
+    cursor: pointer;
+}
+#user-options button > div > span {
+    margin-left: 10px;
+    font-size: 18px;
+    font-weight: 600;
+}
+#user-options a {
+    font-size: 15px;
+    margin-left: 35px;
+}
+#user-options a:nth-of-type(2) {
+    margin-left: 10px;
+}
+
+table {
+    width: 100%;
+    border: 1px solid #e2336f;
+    border-radius: 10px;
+    padding: 15px 10px;
+}
+/* table th:nth-of-type(1), table > tr td:nth-of-type(1) {
+    text-align: left;
+}
+table th:nth-of-type(2), table > tr td:nth-of-type(2) {
+    text-align: center;
+}
+table th:nth-of-type(3) {
+    text-align: right;
+} */
+table tr {
+    text-align: left
+}
+.results-date {
+    color: #e2336f;
+    font-size: 15px;
+}
+table a {
+    color: #e2336f;
+}
