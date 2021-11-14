@@ -1,6 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProjectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,8 +20,14 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/dashboard', function () {
-    return view('layouts.projects');
+    return view('layouts.projects', [
+        'projects' => Auth::user()->projects
+    ]);
 })->middleware(['auth'])->name('dashboard');
+
+Route::post('/dashboard/add-project', [ProjectController::class, 'create'])
+                ->middleware('auth')
+                ->name('add-project');
 
 Route::get('/dashboard/project', function () {
     return view('layouts.project');

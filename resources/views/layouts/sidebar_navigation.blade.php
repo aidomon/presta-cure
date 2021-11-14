@@ -1,7 +1,9 @@
 <nav>
     <div>
-        <h1>Dashboard</h1>
-        <p style="font-size:11px">Manage your projects</p>
+        <a href="{{ route('dashboard') }}">
+            <h1>Dashboard</h1>
+            <p style="font-size:11px">Manage your projects</p>
+        </a>
         <!-- Settings Dropdown -->
         <div id="user-options">
                 <x-dropdown>

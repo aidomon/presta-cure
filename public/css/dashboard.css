@@ -122,7 +122,7 @@ section {
 }
 #projects div,
 #verifications div {
-    background-color: #fafafa;
+    background-color: #f9f9fb;
     border: 1px solid #e2336f;
     border-radius: 5px;
     width: 200px;
@@ -130,7 +130,8 @@ section {
     position: relative;
 }
 #projects div > p,
-#verifications div > p {
+#verifications div > p,
+#projects div > form {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -138,6 +139,26 @@ section {
     text-align: center;
     color: #e2336f;
     font-size: 17px;
+}
+
+#projects div > form > button {
+    width: 135px;
+    background-color: #e2336f;
+    color: white;
+    font-size: 12px;
+    margin-top: 10px;
+    padding: 5px 10px;
+    font-family: "Open Sans", sans-serif;
+}
+#projects div > form > input {
+    text-align: center;
+    border: none;
+    border-bottom: 1px solid #e2336f;
+    background-color: #f9f9fb;
+    padding: 5px 10px;
+    font-size: 17px;
+    width: 100%;
+    font-family: "Open Sans", sans-serif;
 }
 
 #user-options button {
@@ -183,7 +204,7 @@ table th:nth-of-type(3) {
     text-align: right;
 } */
 table tr {
-    text-align: left
+    text-align: left;
 }
 .results-date {
     color: #e2336f;
