@@ -139,3 +139,13 @@ span {
     color: white;
     margin-left: 10px;
 }
+
+/* Apple Keys customization */
+input::-webkit-textfield-decoration-container {
+    position: relative;
+}
+input::-webkit-credentials-auto-fill-button, input::-webkit-contacts-auto-fill-button {
+    background-color: white;
+    position: absolute;
+    right: 10px;
+}

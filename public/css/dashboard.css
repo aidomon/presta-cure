@@ -193,6 +193,7 @@ table {
     border: 1px solid #e2336f;
     border-radius: 10px;
     padding: 15px 10px;
+    margin-bottom: 30px;
 }
 /* table th:nth-of-type(1), table > tr td:nth-of-type(1) {
     text-align: left;
@@ -212,4 +213,15 @@ table tr {
 }
 table a {
     color: #e2336f;
+}
+
+
+/* Apple Keys customization */
+input::-webkit-textfield-decoration-container {
+    position: relative;
+}
+input::-webkit-credentials-auto-fill-button, input::-webkit-contacts-auto-fill-button {
+    background-color: white;
+    position: absolute;
+    right: 10px;
 }

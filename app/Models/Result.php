@@ -11,8 +11,14 @@ class Result extends Model
 
     protected $guarded = [];
 
-    public function projects()
+    public function history()
     {
-        return $this->belongsTo(Project::class);
+        return $this->belongsTo(History::class);
+    }
+    
+    public function tests()
+    {
+        return $this->hasOne(Test::class, 'test_id', 'test_id');
+        //return $this->hasOne(Test::class);
     }
 }

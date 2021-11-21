@@ -16,7 +16,6 @@
                     <button type="submit">Add new project</button>
                 </form>
             </div>
-            <!-- <a href="http://"><div id="new-project"><p style="font-size: 30px;">Add new project</p></div></a> -->
         </div>
     </section>
 

@@ -11,9 +11,9 @@ class Project extends Model
 
     protected $guarded = [];
 
-    public function results()
+    public function history()
     {
-        return $this->hasMany(Result::class);
+        return $this->hasMany(History::class);
     }
 
     public function owner()
