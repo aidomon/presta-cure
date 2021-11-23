@@ -29,6 +29,7 @@
             </div>
         <div class="menu">
             <h2><a href="{{ route('dashboard') }}">Projects</a></h2>
+            <h2><a href="{{ route('dashboard') }}">Tests</a></h2>
             <h2><a href="{{ route('home') }}">Home</a></h2>
             <h2><a href="{{ route('home') }}#how-it-works">Help</a></h2>
         </div>

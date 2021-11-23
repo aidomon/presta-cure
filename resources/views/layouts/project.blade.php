@@ -45,7 +45,7 @@
                 </table>
             @endforeach
         @else
-            <p>No previous results found. Let's run a new one!</p>
+            <p style="margin-top:30px">No previous results found. Let's run first one!</p>
         @endif
             
         

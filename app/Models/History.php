@@ -19,6 +19,5 @@ class History extends Model
     public function results()
     {
         return $this->hasMany(Result::class);
-        //return $this->hasOne(Result::class);
     }
 }

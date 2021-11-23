@@ -12,7 +12,7 @@
             <div>
                 <form action="{{ route('add-project') }}" method="post">
                     @csrf
-                    <input type="text" name="new_project" placeholder="Project name" required>
+                    <input type="text" name="new_project" placeholder="URL" required>
                     <button type="submit">Add new project</button>
                 </form>
             </div>
