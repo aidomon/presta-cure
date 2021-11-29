@@ -22,14 +22,15 @@
                                                 this.closest('form').submit();">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
-                            <a href="">Account</a>
+                            
                         </form>
+                        <!-- <a href="DOPLNIT {} route('account') ">Account</a> -->
                     </x-slot>
                 </x-dropdown>
             </div>
         <div class="menu">
             <h2><a href="{{ route('dashboard') }}">Projects</a></h2>
-            <h2><a href="{{ route('dashboard') }}">Tests</a></h2>
+            <h2><a href="{{ route('tests') }}">Tests</a></h2>
             <h2><a href="{{ route('home') }}">Home</a></h2>
             <h2><a href="{{ route('home') }}#how-it-works">Help</a></h2>
         </div>

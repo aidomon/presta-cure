@@ -9,11 +9,11 @@
             @foreach ($projects as $project)
                 <a href="/dashboard/{{ $project->slug }}"><div><p>{{ $project->name }}</p></div></a>
             @endforeach
-            <div>
+            <div style="width:250px">
                 <form action="{{ route('add-project') }}" method="post">
                     @csrf
                     <input type="text" name="new_project" placeholder="URL" required>
-                    <button type="submit">Add new project</button>
+                    <button type="submit" id="add-new-project">Add new project</button>
                 </form>
             </div>
         </div>

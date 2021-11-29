@@ -1,9 +1,10 @@
 <?php
 
-use App\Models\Project;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardIndexController;
+use App\Http\Controllers\HomeShowController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\TestIndexController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,30 +17,14 @@ use App\Http\Controllers\ProjectController;
 |
  */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::get('/', HomeShowController::class)->name('home');
 
-Route::get('/dashboard', function () {
-    return view('layouts.projects', [
-        'projects' => Auth::user()->projects,
-    ]);
-})->middleware(['auth'])->name('dashboard');
+Route::get('/dashboard', DashboardIndexController::class)->middleware(['auth'])->name('dashboard');
 
-Route::post('/dashboard/add-project', [ProjectController::class, 'create'])
-    ->middleware('auth')
-    ->name('add-project');
+Route::post('/dashboard/add-project', [ProjectController::class, 'create'])->middleware('auth')->name('add-project');
 
-Route::get('/dashboard/{project:slug}', function (Project $project) {
-    //ddd($project->history[0]->history);
-    return view('layouts.project', [
-        'project_details' => $project,
-        'project_history' => $project->history,
-    ]);
-})->middleware(['auth']);
+Route::get('/dashboard/tests', TestIndexController::class)->middleware(['auth'])->name('tests');
 
-Route::get('/dashboard/project', function () {
-    return view('layouts.project');
-})->middleware(['auth']);
+Route::get('/dashboard/{project:slug}', [ProjectController::class, 'show'])->middleware(['auth']);
 
 require __DIR__ . '/auth.php';

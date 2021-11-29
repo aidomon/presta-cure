@@ -110,7 +110,28 @@
         <section id="how-it-works">
             <h2>How it works?</h2>
             <hr>
+            <div>
+                <div>
+                    <img class="process-image" src="/images/create_project.png" alt="PrestaCure">
+                    <p>Log in and create project by entering URL</p>
+                </div>
+                <img class="arrow" src="images/arrow.svg" alt="">
+                <div>
+                    <img class="process-image" src="/images/run_test.png" alt="PrestaCure">
+                    <p>Run security tests and wait for results</p>
+                </div>
+                <img class="arrow" src="images/arrow.svg" alt="">
+                <div>
+                    <img class="process-image" src="/images/bug_fixing.png" alt="PrestaCure">
+                    <p>Examine results and secure your PrestaShop</p>
+                </div>
+
+            </div>
         </section>
+
+        <footer>
+            <p>&copy; Dominik Richter</p>
+        </footer>
 
         <script>
 

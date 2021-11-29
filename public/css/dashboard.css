@@ -76,7 +76,7 @@ main h4 {
     font-size: 17px;
     /* margin-bottom: 30px; */
 }
-main button {
+#add-new-project {
     padding: 10px 20px;
     font-size: 15px;
     border-radius: 25px;
@@ -84,9 +84,9 @@ main button {
     background-color: transparent;
     cursor: pointer;
 }
-main button:hover {
+/* main button:hover {
     background-color: #fafafa;
-}
+} */
 main button > div {
     display: inline-flex;
     align-items: center;
@@ -117,15 +117,31 @@ section {
     display: flex;
     flex-wrap: wrap;
 }
+
+#run-all {
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#run-all a {
+    color: black;
+    font-size: 12px;
+}
+#no-results-yet {
+    margin-top: 30px;
+}
+
 #projects > a,
 #projects > div,
 #verifications > a,
-#verifications > div {
+#verifications > div,
+#run-all {
     margin-right: 40px;
     margin-top: 30px;
 }
 #projects div,
-#verifications div {
+#verifications div,
+#run-all {
     background-color: #f9f9fb;
     border: 1px solid #e2336f;
     border-radius: 5px;
@@ -135,7 +151,8 @@ section {
 }
 #projects div > p,
 #verifications div > p,
-#projects div > form {
+#projects div > form,
+#run-all p {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -143,6 +160,7 @@ section {
     text-align: center;
     color: #e2336f;
     font-size: 17px;
+    width: 80%;
 }
 
 #projects div > form > button {
@@ -179,6 +197,12 @@ section {
     font-family: Montserrat, sans-serif;
     cursor: pointer;
 }
+#user-options
+    > div
+    > div.absolute.z-50.mt-2.w-48.rounded-md.shadow-lg.origin-top-right.right-0
+    > div {
+    display: inline-flex;
+}
 #user-options button > div > span {
     margin-left: 10px;
     font-size: 18px;
@@ -188,7 +212,11 @@ section {
     font-size: 15px;
     margin-left: 35px;
 }
-#user-options a:nth-of-type(2) {
+#user-options
+    > div
+    > div.absolute.z-50.mt-2.w-48.rounded-md.shadow-lg.origin-top-right.right-0
+    > div
+    > a {
     margin-left: 10px;
 }
 
@@ -208,8 +236,21 @@ table th:nth-of-type(2), table > tr td:nth-of-type(2) {
 table th:nth-of-type(3) {
     text-align: right;
 } */
-table tr {
+table tr > td,
+table tr > th {
     text-align: left;
+}
+table tr > td:nth-of-type(2),
+table tr > td:nth-of-type(3),
+table tr > th:nth-of-type(2),
+table tr > th:nth-of-type(3) {
+    text-align: center;
+}
+table th {
+    width: 25%;
+}
+table th:first-child {
+    width: 50%;
 }
 .results-date {
     color: #e2336f;
@@ -231,4 +272,46 @@ input::-webkit-contacts-auto-fill-button {
     background-color: white;
     position: absolute;
     right: 10px;
+}
+
+#loader {
+    border: 4px solid #e2336f;
+    border-radius: 50%;
+    border-top: 4px solid #f9f9fb;
+    width: 30px;
+    height: 30px;
+    -webkit-animation: spin 1.4s linear infinite; /* Safari */
+    animation: spin 1.4s linear infinite;
+    position: absolute;
+    top: 35%;
+    left: 43%;
+    transform: translate(-50%, -50%);
+}
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+#tests-list > div {
+    margin-bottom: 30px;
+}
+#tests-list h4,
+#tests-list p {
+    margin-bottom: 10px;
+}
+#tests-list a {
+    color: #e2336f;
 }

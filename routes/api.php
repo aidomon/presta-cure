@@ -1,9 +1,9 @@
 <?php
 
+use App\Http\Controllers\RestApi\v1\ProjectController;
+use App\Http\Controllers\RestApi\v1\RunTestController;
 use App\Http\Controllers\RestApi\v1\TestController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -14,25 +14,19 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
-*/
+ */
 
-/* 
-Obsah API
+Route::get('/tests', [TestController::class, 'index']);
+Route::get('/tests/{test_id}', [TestController::class, 'show']);
+Route::get('/tests/search/{str}', [TestController::class, 'search']);
 
-- get::/tests - get all available tests and their description
-- get::/test - get just one particular test
-- get::/run-all
-- get::/run-one/{id}
-*/
+Route::get('/tests/run/all/{project_id}', [RunTestController::class, 'create']);
 
+Route::get('/projects', [ProjectController::class, 'index']);
+Route::get('/projects/{project_id}', [ProjectController::class, 'show']);
+Route::get('/projects/search/{str}', [ProjectController::class, 'search']);
 
-Route::group(['middleware' => ['auth:sanctum']], function() {
-    Route::get('/tests', [TestController::class, 'index']);
-    Route::get('/tests/{test_id}', [TestController::class, 'show']);
-    Route::get('/tests/search/{name}', [TestController::class, 'search']);
+// authenticated ['auth:sanctum']
+Route::group(['middleware' => ['auth']], function () {
+
 });
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return "$request->user()";
-});
-

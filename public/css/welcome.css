@@ -35,11 +35,14 @@ nav img {
     height: 20px;
 }
 
-nav > div > a, #logout{
+nav > div > a,
+#logout {
     margin-left: 40px;
 }
 
-nav > div > a:hover, #logout:hover, .nav-scrolling > div #logout:hover {
+nav > div > a:hover,
+#logout:hover,
+.nav-scrolling > div #logout:hover {
     color: #e2336f;
 }
 
@@ -47,10 +50,11 @@ nav > div > a:hover, #logout:hover, .nav-scrolling > div #logout:hover {
     background-color: white;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
 }
-.nav-scrolling > div > a, .nav-scrolling > div #logout {
+.nav-scrolling > div > a,
+.nav-scrolling > div #logout {
     color: #051736;
 }
-.logo-dark  {
+.logo-dark {
     display: none;
 }
 .nav-scrolling .logo-dark {
@@ -114,11 +118,13 @@ nav > div > a:hover, #logout:hover, .nav-scrolling > div #logout:hover {
     margin-top: 20px;
     font-size: 15px;
 }
-#banner .login-btn-div, #banner .registration-btn-div{
+#banner .login-btn-div,
+#banner .registration-btn-div {
     display: flex;
     flex-direction: column;
 }
-#banner .login-btn, #banner .registration-btn {
+#banner .login-btn,
+#banner .registration-btn {
     background-color: #e2336f;
     border: none;
     margin: 20px auto 10px auto;
@@ -130,14 +136,14 @@ nav > div > a:hover, #logout:hover, .nav-scrolling > div #logout:hover {
     cursor: pointer;
 }
 
-#banner .login-btn-div > a, #banner .registration-btn-div > a {
+#banner .login-btn-div > a,
+#banner .registration-btn-div > a {
     color: #959595;
     font-size: 11px;
 }
 
 #how-it-works {
     padding: 50px 10%;
-    height: 570px;
     text-align: center;
 }
 hr {
@@ -148,13 +154,44 @@ hr {
     width: 40px;
     margin: 10px auto 0 auto;
 }
+#how-it-works h2 {
+    color: #051736;
+}
+#how-it-works > div {
+    display: inline-flex;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    margin: 50px auto;
+}
+.process-image {
+    height: 200px;
+}
+#how-it-works p {
+    font-weight: 400;
+}
+.arrow {
+    height: 70px;
+    margin: auto 40px;
+}
+
+footer {
+    width: 100%;
+    text-align: center;
+    background-color: #051736;
+    color: white;
+    padding: 10px 0;
+}
+
 
 /* Apple Keys customization */
 input::-webkit-textfield-decoration-container {
     position: relative;
 }
-input::-webkit-credentials-auto-fill-button, input::-webkit-contacts-auto-fill-button {
+input::-webkit-credentials-auto-fill-button,
+input::-webkit-contacts-auto-fill-button {
     background-color: white;
     position: absolute;
-    right: 10px;
+    right: 10px 0;
 }

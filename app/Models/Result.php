@@ -11,6 +11,8 @@ class Result extends Model
 
     protected $guarded = [];
 
+    public $timestamps = false;
+
     public function history()
     {
         return $this->belongsTo(History::class);

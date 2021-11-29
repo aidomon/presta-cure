@@ -26,4 +26,11 @@ class Project extends Model
         $slug = preg_replace('/[^A-Za-z0-9-]+/', '-', $urlString);
         return strtolower($slug);
     }
+
+    public static function extractProjectNameFromUrl($url)
+    {
+        $url = parse_url($url)["host"];
+        $host_names = explode(".", $url);
+        return ucfirst($host_names[count($host_names) - 2]);
+    }
 }

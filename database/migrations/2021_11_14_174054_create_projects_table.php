@@ -17,6 +17,7 @@ class CreateProjectsTable extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->string('name')->unique();
+            $table->string('url');
             $table->string('slug')->unique();
             $table->timestamps();
         });

@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers\RestApi\v1;
 
-use App\Models\Test;
-use Illuminate\Http\Request;
-
 use App\Http\Controllers\Controller;
+use App\Models\Test;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
 
 class TestController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of all tests.
      *
-     * @return \Illuminate\Http\Response
+     * @return App\Models\Test
      */
     public function index()
     {
@@ -21,68 +20,32 @@ class TestController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Display info about the specified test.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request)
     {
         try {
             return Test::findOrFail($request->test_id);
-        }
-        catch (ModelNotFoundException) {
+        } catch (ModelNotFoundException) {
             return response()->json([
-                'message'   => 'nothing found'
-             ],400);
+                'message' => 'nothing found',
+            ], 400);
         }
-        
     }
 
     /**
-     * Search for specified name.
+     * Search for specified name in all tests.
      *
-     * @param  str  $name
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request  $request
+     * @return App\Models\Test
      */
     public function search(Request $request)
     {
-        return Test::where('name', 'like', '%' . $request->name . '%')
-            ->orWhere('description', 'like', '%' . $request->name . '%')
+        return Test::where('name', 'like', '%' . $request->str . '%')
+            ->orWhere('description', 'like', '%' . $request->str . '%')
             ->get();
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }
