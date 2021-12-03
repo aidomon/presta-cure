@@ -49,28 +49,4 @@ class ProjectController extends Controller
             ->orWhere('id', 'like', '%' . $request->str . '%')
             ->get();
     }
-
-    /**
-     * Create new project.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return view
-     */
-    public function create(Request $request)
-    {
-        request()->validate([
-            'new_project' => 'required|url',
-        ]);
-
-        $project = new Project;
-
-        $project->name = Project::extractProjectNameFromUrl($request->new_project);
-        $project->user_id = Auth::id();
-        $project->url = $request->new_project;
-        $project->slug = Project::createUrlSlug($project->name);
-
-        $project->save();
-
-        return redirect('/dashboard')->with('success', 'Your project has been created.');
-    }
 }

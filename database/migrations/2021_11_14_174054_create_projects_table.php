@@ -19,6 +19,7 @@ class CreateProjectsTable extends Migration
             $table->string('name')->unique();
             $table->string('url');
             $table->string('slug')->unique();
+            $table->boolean('verified');
             $table->timestamps();
         });
     }

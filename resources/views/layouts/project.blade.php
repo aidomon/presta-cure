@@ -7,7 +7,6 @@
         <h4>Run new security test</h4>
         <div id="run-all-div">
             <button id="run-all"><div id="loader-or-run"><p>RUN ALL</p></div></button>
-            <!-- <button id="run-all"><div id="loader"></div></button> -->
         </div>
     </section>
 
@@ -31,19 +30,17 @@
                         @foreach ($history->results as $result)
                         <tr>
                             <td>{{ $result->tests->name }}</td>
-
-                            @if ($result->result === 1)
-                                <td>
-                                    OK
-                                </td>
-                                <td><a style="pointer-events: none;cursor: default;">—</a></td>
+                            <td>{{ $result->result }}</td>
+                            @if($result->tests->fix_link == null) {
+                                <td><a href="javascript:;">-</a></td>
+                            }
                             @else
-                                <td>
-                                    vulnerable
-                                </td>
                                 <td><a href="{{ $result->tests->fix_link }}">Link</a></td>
                             @endif
                         </tr>
+                        @if ($history->results->count() > 1 and !$loop->last)
+                            <tr style="height:10px"></tr>
+                        @endif
                         @endforeach
                     </table>
                     @endif
@@ -55,10 +52,10 @@
         </div>
     </section>
 
-    
+
 
     <script>
-        
+
         $( document ).ajaxStart(function() {
             $('#loader-or-run').html('<div id="loader"></div>');
         });
@@ -68,25 +65,10 @@
 
         $("#run-all").click(function(){
             $.get("/api/tests/run/all/{{ $project_details->id }}", function(data, status){
-                
-                // JSON.stringify(data).forEach(element => {
-                //     new_results += element.name;
-                // });
-                //var new_results = data.test_id;
-
-                var table = '<p class="results-date">Now</p><table><tr><th>Test</th><th>Status</th><th>Fix</th></tr><tr style="height:15px"></tr><tr><td>' + data.test_name + '</td><td>' + data.result + '</td><td><a href="' + data.fix_link + '">Link</a></td></tr></table>';
-                $("#project-history").prepend(table.fadeIn('slow'));
-                $('no-results-yet').hide();
-                
+                var table = $('<p class="results-date">Now</p><table><tr><th>Test</th><th>Status</th><th>Fix</th></tr><tr style="height:15px"></tr><tr><td>' + data.test_name + '</td><td>' + data.result + '</td><td><a href="' + data.fix_link + '">Link</a></td></tr></table>').hide().fadeIn(1000);
+                $("#project-history").prepend(table);
+                $('#no-results-yet').hide();
             });
-            // $.post("demo_test_post.asp",
-            //     {
-            //         name: "Donald Duck",
-            //         city: "Duckburg"
-            //     },
-            //     function(data, status){
-            //         alert("Data: " + data + "\nStatus: " + status);
-            // });
         });
 
     </script>

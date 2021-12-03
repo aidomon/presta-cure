@@ -25,22 +25,23 @@ class ProjectController extends Controller
         $project->name = Project::extractProjectNameFromUrl($request->new_project);
         $project->user_id = Auth::id();
         $project->url = $request->new_project;
+        $project->verified = 0;
         $project->slug = Project::createUrlSlug($project->name);
 
         $project->save();
 
-        return redirect('/dashboard')->with('success', 'Your project has been created.');
+        return redirect('/dashboard')->with('status', 'To start pentesting, verify your project by placing prestacure.html file to the web root.');
     }
 
     /**
      * Display specific project.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  Project $project
+     * @return view
      */
     public function show(Project $project)
     {
-        if (Auth::user()->projects->contains($project)) {
+        if (Auth::user()->projects->contains($project) and $project->verified == 1) {
             return view('layouts.project', [
                 'project_details' => $project,
                 'project_history' => $project->history->sortDesc(),
@@ -48,5 +49,28 @@ class ProjectController extends Controller
         } else {
             return abort(404);
         }
+    }
+
+    /**
+     * Verify new project.
+     *
+     * @param  Project  $project
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Project $project)
+    {
+        $file_check = curl_init($project->url . '/prestacure.html');
+
+        curl_setopt($file_check, CURLOPT_NOBODY, true);
+        curl_exec($file_check);
+        curl_close($file_check);
+
+        if (curl_getinfo($file_check, CURLINFO_HTTP_CODE) == 200) {
+            $project->verified = 1;
+            $project->save();
+            return redirect('/dashboard')->with('status', 'Your project has been verified!');
+        }
+
+        return redirect('/dashboard')->with('status', 'Specified file is not present. Project not verified');
     }
 }

@@ -13,8 +13,11 @@ class DashboardIndexController extends Controller
      */
     public function __invoke()
     {
+        $projects = Auth::user()->projects;
+
         return view('layouts.projects', [
-            'projects' => Auth::user()->projects,
+            'projects' => $projects,
+            'not_verified_projects_count' => $projects->where('verified', 0)->count(),
         ]);
     }
 }

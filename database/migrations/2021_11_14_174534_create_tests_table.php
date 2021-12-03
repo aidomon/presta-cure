@@ -15,10 +15,10 @@ class CreateTestsTable extends Migration
     {
         Schema::create('tests', function (Blueprint $table) {
             $table->id();
-            $table->Integer('test_id')->unsigned();
             $table->string('name')->unique();
             $table->text('description');
             $table->string('fix_link');
+            $table->string('class')->unique();
             $table->timestamps();
         });
     }

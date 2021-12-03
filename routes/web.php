@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\DashboardIndexController;
-use App\Http\Controllers\HomeShowController;
-use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\TestIndexController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\HomeShowController;
+use App\Http\Controllers\TestIndexController;
+use App\Http\Controllers\DashboardIndexController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeShowController::class)->name('home');
 
+Route::put('/verify/{project:slug}', [ProjectController::class, 'update'])->middleware('auth')->name('verify-project');
+
 Route::get('/dashboard', DashboardIndexController::class)->middleware(['auth'])->name('dashboard');
 
 Route::post('/dashboard/add-project', [ProjectController::class, 'create'])->middleware('auth')->name('add-project');
@@ -26,5 +29,9 @@ Route::post('/dashboard/add-project', [ProjectController::class, 'create'])->mid
 Route::get('/dashboard/tests', TestIndexController::class)->middleware(['auth'])->name('tests');
 
 Route::get('/dashboard/{project:slug}', [ProjectController::class, 'show'])->middleware(['auth']);
+
+Route::get('/admin', [AdminController::class, 'show'])->middleware('auth', 'admin')->name('admin-panel');
+
+Route::get('/admin/load-tests', [AdminController::class, 'store'])->middleware('auth', 'admin');
 
 require __DIR__ . '/auth.php';

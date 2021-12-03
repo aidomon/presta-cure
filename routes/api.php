@@ -16,17 +16,15 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::get('/tests', [TestController::class, 'index']);
-Route::get('/tests/{test_id}', [TestController::class, 'show']);
-Route::get('/tests/search/{str}', [TestController::class, 'search']);
-
-Route::get('/tests/run/all/{project_id}', [RunTestController::class, 'create']);
-
-Route::get('/projects', [ProjectController::class, 'index']);
-Route::get('/projects/{project_id}', [ProjectController::class, 'show']);
-Route::get('/projects/search/{str}', [ProjectController::class, 'search']);
-
-// authenticated ['auth:sanctum']
-Route::group(['middleware' => ['auth']], function () {
-
+Route::group(['middleware' => ['api']], function () {
+    Route::get('/tests', [TestController::class, 'index']);
+    Route::get('/tests/{test_id}', [TestController::class, 'show']);
+    Route::get('/tests/search/{str}', [TestController::class, 'search']);
+    
+    Route::get('/tests/run/all/{project_id}', [RunTestController::class, 'create']);
+    
+    Route::get('/projects', [ProjectController::class, 'index']);
+    Route::get('/projects/{project_id}', [ProjectController::class, 'show']);
+    Route::get('/projects/search/{str}', [ProjectController::class, 'search']);
 });
+

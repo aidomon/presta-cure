@@ -13,6 +13,9 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/welcome.css') }}">
+        <script src="{{ asset('js/jquery.js') }}"></script>
+
+        <meta name="generator" content="PrestaShop" />
 
     </head>
 
@@ -27,81 +30,54 @@
             <div>
                 @if (Route::has('login'))
                     @guest
-                    <h2><span id="login-form-link">Log In</span> / <span id="registration-form-link">Register</span></h2>
-                    <form id="login-form" method="POST" action="{{ route('login') }}">
-                        @csrf
+                        <h2><span id="login-form-link">Log In</span> / <span id="registration-form-link"><a href="{{ route('register') }}" style="color:#959595">Register</a></span></h2>
 
-                        <!-- Email Address -->
-                        <div>
-                            <input id="email" placeholder="Email" type="email" name="email" :value="old('email')" required />
-                        </div>
+                        <form id="login-form" method="POST" action="{{ route('login') }}">
+                            @csrf
 
-                        <!-- Password -->
-                        <div>
-                            <input id="password" placeholder="Password"
-                                            type="password"
-                                            name="password"
-                                            required autocomplete="current-password" />
-                        </div>
+                            <!-- Email Address -->
+                            <div>
+                                <input id="email" placeholder="Email" type="email" name="email" value="{{ old('email') }}" required />
+                            </div>
 
-                        <div class="login-btn-div">
-                            <x-button>
-                                {{ __('Log in') }}
-                            </x-button>
-                            @if (Route::has('password.request'))
-                                <a href="{{ route('password.request') }}">
-                                    {{ __('Forgot your password?') }}
-                                </a>
-                            @endif
-                        </div>
-                    </form>
+                            <!-- Password -->
+                            <div>
+                                <input id="password" placeholder="Password"
+                                                type="password"
+                                                name="password"
+                                                required autocomplete="current-password" />
+                            </div>
 
-                    <form id="registration-form" style="display:none" method="POST" action="{{ route('register') }}">
-                        @csrf
+                            <!-- Remember Me -->
+                            <div id="remember-me">
+                                <label for="remember_me" class="inline-flex">
+                                    <input id="remember_me" type="checkbox" name="remember">
+                                    <span>{{ __('Remember me') }}</span>
+                                </label>
+                            </div>
 
-                        <!-- Name -->
-                        <div>
-                            <input id="name" placeholder="Name" type="text" name="name" :value="old('name')" required />
-                        </div>
+                            <div class="login-btn-div">
+                                <x-button>
+                                    {{ __('Log in') }}
+                                </x-button>
+                                @if (Route::has('password.request'))
+                                    <a href="{{ route('password.request') }}">
+                                        {{ __('Forgot your password?') }}
+                                    </a>
+                                @endif
+                            </div>
 
-                        <!-- Email Address -->
-                        <div>
-                            <input id="email" placeholder="Email" type="email" name="email" :value="old('email')" required />
-                        </div>
-
-                        <!-- Password -->
-                        <div>
-                            <input id="password" placeholder="Password"
-                                            type="password"
-                                            name="password"
-                                            required autocomplete="new-password" />
-                        </div>
-
-                        <!-- Confirm Password -->
-                        <div>
-                            <input id="password_confirmation" placeholder="Repeat password"
-                                            type="password"
-                                            name="password_confirmation"
-                                            required />
-                        </div>
-
-                        <div class="registration-btn-div">
-                            <x-button class="registration-btn">
-                                {{ __('Register') }}
-                            </x-button>
-                            <a class="" href="{{ route('login') }}">
-                                {{ __('Already registered?') }}
-                            </a>
-                        </div>
-                    </form>
+                            <!-- Validation Errors -->
+                            <x-auth-validation-errors style="font-size: 13px !important;color: rgb(255, 51, 51);margin-top: 20px;" :errors="$errors" />
+                        </form>
                     @endguest
                     @auth
-                    <div style="margin-right: 20%">
-                        <p><span style="color: #e2336f;">Welcome,</span><br>{{ auth()->user()->name }}</p>
-                        <img src="/images/security.svg" alt="PrestaCure" style="margin: 20px auto">
-                        <p style="font-size:20px;">Ready to secure your PrestaShop?</p>
-                        <p style="font-size:20px;margin-top: 15px"><a href="{{ url('/dashboard') }}" class="">Go to your <span style="color:#e2336f">Dashboard</span></a></p>
-                    </div>
+                        <div style="margin-right: 20%">
+                            <p><span style="color: #e2336f;">Welcome,</span><br>{{ auth()->user()->name }}</p>
+                            <img src="/images/security.svg" alt="PrestaCure" style="margin: 20px auto">
+                            <p style="font-size:20px;">Ready to secure your PrestaShop?</p>
+                            <p style="font-size:20px;margin-top: 15px"><a href="{{ url('/dashboard') }}" class="">Go to your <span style="color:#e2336f">Dashboard</span></a></p>
+                        </div>
                     @endauth
                 @endif
             </div>
@@ -113,7 +89,7 @@
             <div>
                 <div>
                     <img class="process-image" src="/images/create_project.png" alt="PrestaCure">
-                    <p>Log in and create project by entering URL</p>
+                    <p>Create and verify your new project by entering URL</p>
                 </div>
                 <img class="arrow" src="images/arrow.svg" alt="">
                 <div>
@@ -135,25 +111,25 @@
 
         <script>
 
-            if (document.querySelector("#login-form-link") || document.querySelector("#registration-form-link")) {
-                var login_form = document.querySelector("#login-form");
-                var registration_form = document.querySelector("#registration-form");
-                var login_form_link = document.querySelector("#login-form-link");
-                var registration_form_link = document.querySelector("#registration-form-link");
+            // if (document.querySelector("#login-form-link") || document.querySelector("#registration-form-link")) {
+            //     var login_form = document.querySelector("#login-form");
+            //     var registration_form = document.querySelector("#registration-form");
+            //     var login_form_link = document.querySelector("#login-form-link");
+            //     var registration_form_link = document.querySelector("#registration-form-link");
 
-                login_form_link.addEventListener("click", () => {
-                    login_form.style.display = 'block';
-                    registration_form.style.display = 'none';
-                    login_form_link.style.color = 'white';
-                    registration_form_link.style.color = '#959595';
-                });
-                registration_form_link.addEventListener("click", () => {
-                    registration_form.style.display = 'block';
-                    login_form.style.display = 'none';
-                    registration_form_link.style.color = 'white';
-                    login_form_link.style.color = '#959595';
-                });
-            }
+            //     login_form_link.addEventListener("click", () => {
+            //         login_form.style.display = 'block';
+            //         registration_form.style.display = 'none';
+            //         login_form_link.style.color = 'white';
+            //         registration_form_link.style.color = '#959595';
+            //     });
+            //     registration_form_link.addEventListener("click", () => {
+            //         registration_form.style.display = 'block';
+            //         login_form.style.display = 'none';
+            //         registration_form_link.style.color = 'white';
+            //         login_form_link.style.color = '#959595';
+            //     });
+            // }
 
             // menu
             var navbar =  document.querySelector("nav");
@@ -169,6 +145,8 @@
 
             window.onscroll = scrollFunction;
         </script>
+
+        @include('components.show-status-bar')
 
     </body>
 

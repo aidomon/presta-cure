@@ -1,7 +1,4 @@
 <x-guest-layout>
-   
-    <!-- Validation Errors -->
-    <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
     <form id="registration-form" method="POST" action="{{ route('register') }}">
         @csrf
@@ -10,12 +7,12 @@
         <hr>
         <!-- Name -->
         <div>
-            <input id="name" placeholder="Name" type="text" name="name" :value="old('name')" required />
+            <input id="name" placeholder="Name" type="text" name="name" value="{{ old('name') }}" required />
         </div>
 
         <!-- Email Address -->
         <div>
-            <input id="email" placeholder="Email" type="email" name="email" :value="old('email')" required />
+            <input id="email" placeholder="Email" type="email" name="email" value="{{ old('email') }}" required />
         </div>
 
         <!-- Password -->
@@ -42,6 +39,9 @@
                 {{ __('Already registered?') }}
             </a>
         </div>
+
+        <!-- Validation Errors -->
+        <x-auth-validation-errors :errors="$errors" />
     </form>
-   
+
 </x-guest-layout>

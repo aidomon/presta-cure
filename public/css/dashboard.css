@@ -247,7 +247,7 @@ table tr > th:nth-of-type(3) {
     text-align: center;
 }
 table th {
-    width: 25%;
+    width: 35%;
 }
 table th:first-child {
     width: 50%;
@@ -309,9 +309,20 @@ input::-webkit-contacts-auto-fill-button {
     margin-bottom: 30px;
 }
 #tests-list h4,
-#tests-list p {
+#tests-list p,
+#load-tests h4 {
     margin-bottom: 10px;
 }
 #tests-list a {
     color: #e2336f;
+}
+
+.status {
+    position: fixed;
+    right: 70px;
+    bottom: -100px;
+    background-color: #e2336f;
+    padding: 10px 15px;
+    border-radius: 5px;
+    color: white;
 }

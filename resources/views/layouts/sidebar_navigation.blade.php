@@ -29,6 +29,9 @@
                 </x-dropdown>
             </div>
         <div class="menu">
+            @if (\App\Models\User::first()->name == Auth::user()->name)
+                <h2><a href="{{ route('admin-panel') }}">Admin Panel</a></h2>
+            @endif
             <h2><a href="{{ route('dashboard') }}">Projects</a></h2>
             <h2><a href="{{ route('tests') }}">Tests</a></h2>
             <h2><a href="{{ route('home') }}">Home</a></h2>

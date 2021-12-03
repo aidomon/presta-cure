@@ -20,6 +20,6 @@ class Result extends Model
     
     public function tests()
     {
-        return $this->hasOne(Test::class, 'test_id', 'test_id');
+        return $this->hasOne(Test::class, 'id', 'test_id');
     }
 }

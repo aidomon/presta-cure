@@ -6,14 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\History;
 use App\Models\Project;
 use App\Models\Result;
-use App\Models\Test;
 use App\Tests\PrestaShopVersion;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class RunTestController extends Controller
 {
-    
+
     /**
      * Run new test and create new resource in storage.
      *
@@ -23,7 +21,7 @@ class RunTestController extends Controller
     public function create(Request $request)
     {
         $project = Project::findOrFail($request->project_id);
-        $test_results = PrestaShopVersion::detect($project->url); //perdat rovnou celej request
+        $test_results = PrestaShopVersion::detect($project->url);
 
         $history = new History();
         $history->project_id = $request->project_id;

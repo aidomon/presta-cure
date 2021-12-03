@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\Test;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 class CreateResultsTable extends Migration
 {
@@ -16,8 +17,8 @@ class CreateResultsTable extends Migration
         Schema::create('results', function (Blueprint $table) {
             $table->id();
             $table->foreignId('history_id');
-            $table->foreignId('test_id')->constrained()->onDelete('restrict')->onUpdate('cascade');
-            $table->boolean('result');
+            $table->foreignId('test_id')->constrained('tests')->onDelete('restrict')->onUpdate('cascade');
+            $table->string('result');
             $table->timestamp('created_at');
         });
     }
