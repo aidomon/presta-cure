@@ -7,7 +7,7 @@ use App\Models\Test;
 class TestIndexController extends Controller
 {
     /**
-     * Index all availabel tests.
+     * Index all available tests.
      *
      * @return view
      */
