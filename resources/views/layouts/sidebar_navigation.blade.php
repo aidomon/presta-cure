@@ -9,7 +9,7 @@
                 <x-dropdown>
                     <x-slot name="trigger">
                         <button>
-                            <div><img src="/images/profile.svg" alt="PrestaCure profile"><span>{{ Auth::user()->name }}</span></div>
+                            <div><img src="/images/profile.svg" alt="PrestaCure profile"><span>{{ Auth::user()->username }}</span></div>
                         </button>
                     </x-slot>
 
@@ -29,7 +29,7 @@
                 </x-dropdown>
             </div>
         <div class="menu">
-            @if (\App\Models\User::first()->name == Auth::user()->name)
+            @if (\App\Models\User::first()->name == Auth::user()->username)
                 <h2><a href="{{ route('admin-panel') }}">Admin Panel</a></h2>
             @endif
             <h2><a href="{{ route('dashboard') }}">Projects</a></h2>

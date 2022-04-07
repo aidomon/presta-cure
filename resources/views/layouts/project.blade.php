@@ -4,9 +4,20 @@
     <hr>
 
     <section>
-        <h4>Run new security test</h4>
+        <h4>Run all security tests</h4>
         <div id="run-all-div">
-            <button id="run-all"><div id="loader-or-run"><p>RUN ALL</p></div></button>
+            <button class="run-all-id" id="run-all"><div id="loader-or-run"><p>RUN ALL</p></div></button>
+        </div>
+        <h4 style="margin-top:30px">Or run them separately</h4>
+        <div id="all-tests">
+            @foreach ($tests as $test)
+                <div>
+                    <div>
+                        <button class="run-specific" test-id="{{ $test->id }}"><div test-id="{{ $test->id }}" class="loader-or-run-specific" style="width:30px"><img src="/images/play-button.svg"></div>{{ $test->name }}</button>
+                    </div>
+                    <a href="{{ '/dashboard/tests/#' . strtolower(str_replace(' ', '', $test->name)) }}" class="test-link">More info</a>
+                </div>
+            @endforeach
         </div>
     </section>
 
@@ -55,22 +66,45 @@
 
 
     <script>
-
-        $( document ).ajaxStart(function() {
-            $('#loader-or-run').html('<div id="loader"></div>');
-        });
-        $( document ).ajaxStop(function() {
-            $('#loader-or-run').html('<p>RUN ALL</p>');
-        });
-
-        $("#run-all").click(function(){
-            $.get("/api/tests/run/all/{{ $project_details->id }}", function(data, status){
-                var table = $('<p class="results-date">Now</p><table><tr><th>Test</th><th>Status</th><th>Fix</th></tr><tr style="height:15px"></tr><tr><td>' + data.test_name + '</td><td>' + data.result + '</td><td><a href="' + data.fix_link + '">Link</a></td></tr></table>').hide().fadeIn(1000);
-                $("#project-history").prepend(table);
+        $('#run-all').click(function(){
+            $.get('/tests/run/all/{{ $project_details->id }}', function(data, status){
+                let table_rows = "";
+                data.forEach(element => {
+                    table_rows += '<tr><td>' + element.test_name + '</td><td>' + element.result + '</td><td><a href="' + element.fix_link + '" target="_blank">Link</a></td></tr>';
+                });
+                let table = $('<p class="results-date">Now</p><table><tr><th>Test</th><th>Status</th><th>Fix</th></tr><tr style="height:15px"></tr>' + table_rows + '</table>').hide().fadeIn(1000);
+                $('#project-history').prepend(table);
                 $('#no-results-yet').hide();
             });
         });
 
+        $(".run-specific").click(function(){
+            $.get('/tests/run/' + ($(event.target).closest('button')).attr('test-id') + '/{{ $project_details->id }}', function(data, status){
+                let table = $('<p class="results-date">Now</p><table><tr><th>Test</th><th>Status</th><th>Fix</th></tr><tr style="height:15px"></tr><tr><td>' + data.test_name + '</td><td>' + data.result + '</td><td><a href="' + data.fix_link + '" target="_blank">Link</a></td></tr></table>').hide().fadeIn(1000);
+                $('#project-history').prepend(table);
+                $('#no-results-yet').hide();
+            });
+        });
+
+        $(document).ajaxStart(function() {
+            clicked = $(event.target).closest('button');
+            clicked_class = clicked.attr("class");
+            if (clicked_class == "run-all-id") {
+                $('#loader-or-run').html('<div class="loader"></div>');
+            }
+            if (clicked_class == "run-specific") {
+                (clicked.find('.loader-or-run-specific')).html('<div class="loader-specific"></div>');
+            }
+        });
+
+        $(document).ajaxStop(function() {
+            if (clicked_class == "run-all-id") {
+                $('#loader-or-run').html('<p>RUN ALL</p>');
+            }
+            if (clicked_class == "run-specific") {
+                (clicked.find('.loader-or-run-specific')).html('<img src="/images/play-button.svg">');
+            }
+        });
     </script>
 
 </x-dashboard>

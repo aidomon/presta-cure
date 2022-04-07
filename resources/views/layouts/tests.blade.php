@@ -6,7 +6,7 @@
     <section id="tests-list">
         @if ($tests->count() != 0)
             @foreach ($tests as $test)
-                <div id="{{ $test->name }}">
+                <div id="{{ strtolower(str_replace(' ', '', $test->name)) }}">
                     <h4>{{ $test->name }}</h4>
                     <p>{{ $test->description }}</p>
                     <a href="{{ $test->fix_link }}">Fix link</a>
@@ -15,7 +15,7 @@
         @else
             <p>No tests currently available</p>
         @endif
-        
+
     </section>
 
 </x-dashboard>

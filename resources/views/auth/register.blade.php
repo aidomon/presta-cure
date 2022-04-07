@@ -5,9 +5,9 @@
 
         <h1>Register</h1>
         <hr>
-        <!-- Name -->
+        <!-- Username -->
         <div>
-            <input id="name" placeholder="Name" type="text" name="name" value="{{ old('name') }}" required />
+            <input id="name" placeholder="Username" type="text" name="username" value="{{ old('username') }}" required />
         </div>
 
         <!-- Email Address -->

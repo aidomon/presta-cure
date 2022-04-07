@@ -11,9 +11,13 @@ class Test extends Model
 
     protected $guarded = [];
 
+    /**
+     * The attributes that should be hidden for arrays.
+     */
+    protected $hidden = ['class'];
+
     public function results()
     {
         return $this->belongsToMany(Result::class);
     }
-    
 }

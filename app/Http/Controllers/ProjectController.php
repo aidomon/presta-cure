@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Test;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -45,6 +46,7 @@ class ProjectController extends Controller
             return view('layouts.project', [
                 'project_details' => $project,
                 'project_history' => $project->history->sortDesc(),
+                'tests' => Test::all()
             ]);
         } else {
             return abort(404);

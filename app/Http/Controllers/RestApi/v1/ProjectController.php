@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers\RestApi\v1;
 
-use App\Http\Controllers\Controller;
 use App\Models\Project;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 
 class ProjectController extends Controller
 {
@@ -15,9 +13,9 @@ class ProjectController extends Controller
      *
      * @return App\Models\Project
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Project::all();
+        return response($request->user()->projects);
     }
 
     /**
@@ -28,13 +26,13 @@ class ProjectController extends Controller
      */
     public function show(Request $request)
     {
-        try {
-            return Project::findOrFail($request->project_id);
-        } catch (ModelNotFoundException) {
-            return response()->json([
-                'message' => 'nothing found',
-            ], 400);
-        }
+        $requested_project = $request->user()->projects->where('id', $request->project_id)->first();
+        if (!empty($requested_project)) {
+            return response($requested_project);
+        } else {
+            return response([
+                'message' => 'No project with ID=' . $request->project_id . ' found',
+            ], 400);}
     }
 
     /**
@@ -45,8 +43,24 @@ class ProjectController extends Controller
      */
     public function search(Request $request)
     {
-        return Project::where('name', 'like', '%' . $request->str . '%')
-            ->orWhere('id', 'like', '%' . $request->str . '%')
+        $projects = Project::where('name', 'like', '%' . $request->str . '%')
+            ->orWhere('url', 'like', '%' . $request->str . '%')
+            ->orWhere('created_at', 'like', '%' . $request->str . '%')
+            ->orWhere('updated_at', 'like', '%' . $request->str . '%')
             ->get();
+        $searched_projects = $projects->where('user_id', $request->user()->id);
+
+        $search_result = array();
+        foreach ($searched_projects as $project) {
+            array_push($search_result, $project);
+        }
+
+        if (!empty($search_result)) {
+            return response($search_result);
+        } else {
+            return response([
+                'message' => 'No project with specified string ' . $request->str . ' found',
+            ], 400);
+        }
     }
 }
