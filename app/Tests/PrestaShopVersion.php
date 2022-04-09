@@ -3,17 +3,30 @@
 namespace App\Tests;
 
 /**
- * 
+ *
  * Run PrestaShop version check
  */
-class PrestaShopVersion
+class PrestaShopVersion implements TestInterface
 {
-    public static $name = 'PrestaShop check';
 
-    public static $fix_link = 'https://www.prestashop.com/en/blog/how-to-install-prestashop';
+    public static function getName(){
+        return 'PrestaShop check';
+    }
 
-    public static $description = 'The PrestaShop check test is verifying that your targeted website is running on PrestaShop platform. It is not infallible but it is required to run the tests against PrestaShop to get the best results';
+    public static function getFixLink(){
+        return 'https://www.prestashop.com/en/blog/how-to-install-prestashop';
+    }
 
+    public static function getDescription(){
+        return 'The PrestaShop check test is verifying that your targeted website is running on PrestaShop platform. It is not infallible but it is required to run the tests against PrestaShop to get the best results possible.';
+    }
+
+    /**
+     * Detect method
+     *
+     * @param  mixed $url
+     * @return void
+     */
     public static function detect($url)
     {
         $ps_files = array('/controllers/admin/AdminCarrierWizardController.php', '/classes/PrestaShopCollection.php', '/img/preston-login-wink@2x.png');
@@ -52,20 +65,26 @@ class PrestaShopVersion
         if ($positive_counter >= 2) {
             return [
                 'test_id' => 1,
-                'test_name' => PrestaShopVersion::$name,
+                'test_name' => PrestaShopVersion::getName(),
                 'result' => 'Webapp is running on PrestaShop',
                 'fix_link' => 'null',
             ];
         } else {
             return [
                 'test_id' => 1,
-                'test_name' => PrestaShopVersion::$name,
+                'test_name' => PrestaShopVersion::getName(),
                 'result' => 'Webapp is probably not running on PrestaShop',
-                'fix_link' => PrestaShopVersion::$fix_link,
+                'fix_link' => PrestaShopVersion::getFixLink(),
             ];
         }
     }
 
+    /**
+     * getHeaders
+     *
+     * @param  mixed $url
+     * @return boolean
+     */
     private static function getHeaders($url)
     {
         $header_check = curl_init();

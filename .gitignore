@@ -14,3 +14,4 @@ yarn-error.log
 /.idea
 /.vscode
 poznamky.txt
+.DS_Store

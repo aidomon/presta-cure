@@ -22,14 +22,14 @@
                                                 this.closest('form').submit();">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
-                            
+
                         </form>
                         <!-- <a href="DOPLNIT {} route('account') ">Account</a> -->
                     </x-slot>
                 </x-dropdown>
             </div>
         <div class="menu">
-            @if (\App\Models\User::first()->name == Auth::user()->username)
+            @if (\App\Models\User::first()->username == Auth::user()->username)
                 <h2><a href="{{ route('admin-panel') }}">Admin Panel</a></h2>
             @endif
             <h2><a href="{{ route('dashboard') }}">Projects</a></h2>
