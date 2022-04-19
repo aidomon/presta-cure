@@ -1,13 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\HomeShowController;
-use App\Http\Controllers\TestIndexController;
 use App\Http\Controllers\DashboardIndexController;
-use App\Http\Controllers\RestApi\v1\TestController;
+use App\Http\Controllers\HomeShowController;
+use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RestApi\v1\AllTestsController;
+use App\Http\Controllers\RestApi\v1\TestController;
+use App\Http\Controllers\TestIndexController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,8 +36,10 @@ Route::get('/admin', [AdminController::class, 'show'])->middleware('auth', 'admi
 
 Route::get('/admin/load-tests', [AdminController::class, 'store'])->middleware('auth', 'admin');
 
-Route::get('/tests/run/all/{project_id}', [AllTestsController::class, 'create']);
+//Route::get('/tests/run/all/{project_id}', [AllTestsController::class, 'create'])->middleware('auth');
+Route::post('/tests/run/all', [AllTestsController::class, 'create'])->middleware('auth');
 
-Route::get('/tests/run/{test_id}/{project_id}', [TestController::class, 'create']);
+// Route::get('/tests/run/{test_id}/{project_id}', [TestController::class, 'create']);
+Route::post('/tests/run/specific', [TestController::class, 'create'])->middleware('auth');
 
 require __DIR__ . '/auth.php';

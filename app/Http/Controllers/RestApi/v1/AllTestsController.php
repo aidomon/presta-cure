@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers\RestApi\v1;
 
-use App\Models\Test;
-use App\Models\Result;
-use App\Models\History;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\History;
+use App\Models\Result;
+use App\Models\Test;
+use ErrorException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
 
 class AllTestsController extends Controller
 {
-     /**
+    /**
      * Display a listing of all tests.
      *
      * @return App\Models\Test
@@ -43,7 +44,14 @@ class AllTestsController extends Controller
     public function create(Request $request)
     {
         try {
-            $project_url = auth()->user()->projects->where('id', 1)[0]->url;
+            $fields = $request->validate([
+                'project_id' => 'required|integer',
+            ]);
+
+            $project_url = auth()->user()->projects->where('id', $fields['project_id'])->first()->url;
+            if ($project_url == null) {
+                throw new ErrorException;
+            }
             $tests = Test::all();
 
             $all_test_results = array();
@@ -54,7 +62,7 @@ class AllTestsController extends Controller
                 $test_result = $instance::detect($project_url);
 
                 $history = new History();
-                $history->project_id = $request->project_id;
+                $history->project_id = $fields['project_id'];
                 if (!$history->save()) {
                     return response()->json([
                         'message' => 'Error while connecting to database',
@@ -73,17 +81,12 @@ class AllTestsController extends Controller
                 array_push($all_test_results, $test_result);
             }
 
-        } catch (ModelNotFoundException $e) {
+        } catch (ModelNotFoundException | ErrorException $e) {
             return response([
                 'message' => 'Specified project or test not found',
             ]);
         }
 
         return response($all_test_results);
-
-
-        // return response([
-        //     'project' => $request->project_id
-        // ]);
     }
 }

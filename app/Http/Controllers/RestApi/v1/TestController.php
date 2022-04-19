@@ -3,13 +3,12 @@
 namespace App\Http\Controllers\RestApi\v1;
 
 use App\Http\Controllers\Controller;
+use App\Models\History;
+use App\Models\Result;
 use App\Models\Test;
+use ErrorException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-use App\Models\History;
-use App\Models\Project;
-use App\Models\Result;
-use ErrorException;
 
 class TestController extends Controller
 {
@@ -39,12 +38,20 @@ class TestController extends Controller
     public function create(Request $request)
     {
         try {
-            $project = auth()->user()->projects->where('id', $request->project_id)[0]->url;
-            $instance = 'App\Tests\\' . Test::findOrFail($request->test_id)->class;
+            $fields = $request->validate([
+                'test_id' => 'required|integer',
+                'project_id' => 'required|integer'
+            ]);
+
+            $project = auth()->user()->projects->where('id', $fields['project_id'])->first()->url;
+            if ($project == null) {
+                throw new ErrorException;
+            }
+            $instance = 'App\Tests\\' . Test::findOrFail($fields['test_id'])->class;
             $test_results = $instance::detect($project);
 
             $history = new History();
-            $history->project_id = $request->project_id;
+            $history->project_id = $fields['project_id'];
             if (!$history->save()) {
                 return response()->json([
                     'message' => 'Error while connecting to database',
@@ -61,7 +68,7 @@ class TestController extends Controller
                 ], 400);
             }
 
-        } catch (ModelNotFoundException | ErrorException $e2) {
+        } catch (ModelNotFoundException | ErrorException $e) {
             return response([
                 'message' => 'Specified project or test not found',
             ]);

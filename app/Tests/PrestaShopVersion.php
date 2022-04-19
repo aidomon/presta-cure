@@ -9,15 +9,18 @@ namespace App\Tests;
 class PrestaShopVersion implements TestInterface
 {
 
-    public static function getName(){
+    public static function getName()
+    {
         return 'PrestaShop check';
     }
 
-    public static function getFixLink(){
+    public static function getFixLink()
+    {
         return 'https://www.prestashop.com/en/blog/how-to-install-prestashop';
     }
 
-    public static function getDescription(){
+    public static function getDescription()
+    {
         return 'The PrestaShop check test is verifying that your targeted website is running on PrestaShop platform. It is not infallible but it is required to run the tests against PrestaShop to get the best results possible.';
     }
 

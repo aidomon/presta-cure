@@ -30,17 +30,17 @@ class DatabaseSeeder extends Seeder
 
         Project::create([
             'user_id' => 1,
-            'name' => 'Weblift',
-            'url' => 'https://weblift.cz',
-            'slug' => 'weblift',
+            'name' => 'Testps',
+            'url' => 'http://testps.loc',
+            'slug' => 'testps',
             'verified' => 1
         ]);
 
         Project::create([
             'user_id' => 1,
-            'name' => 'Testps',
-            'url' => 'http://testps.loc',
-            'slug' => 'testps',
+            'name' => 'Weblift',
+            'url' => 'https://weblift.cz',
+            'slug' => 'weblift',
             'verified' => 1
         ]);
 
