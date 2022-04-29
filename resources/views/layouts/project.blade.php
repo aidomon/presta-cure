@@ -75,22 +75,6 @@
 
 
     <script>
-        // $('#run-all').click(function() {
-        //     $.get('/tests/run/all/{{ $project_details->id }}', function(data, status) {
-        //         let table_rows = "";
-        //         data.forEach(element => {
-        //             table_rows += '<tr><td>' + element.test_name + '</td><td>' + element.result +
-        //                 '</td><td><a href="' + element.fix_link +
-        //                 '" target="_blank">Link</a></td></tr>';
-        //         });
-        //         let table = $(
-        //             '<p class="results-date">Now</p><table><tr><th>Test</th><th>Status</th><th>Fix</th></tr><tr style="height:15px"></tr>' +
-        //             table_rows + '</table>').hide().fadeIn(1000);
-        //         $('#project-history').prepend(table);
-        //         $('#no-results-yet').hide();
-        //     });
-        // });
-
         $("#run-all").click(function() {
             $.ajax({
                 type: 'POST',
@@ -105,10 +89,14 @@
                     if (!results.message) {
                         let table_rows = "";
                         results.forEach(element => {
+                            let fix = '<td><a href="' + element.fix_link +
+                                '" target="_blank">Link</a></td>';
+                            if (element.fix_link == 'passed') {
+                                fix = '<td>✓</td>';
+                            }
                             table_rows += '<tr><td>' + element.test_name + '</td><td>' + element
                                 .result +
-                                '</td><td><a href="' + element.fix_link +
-                                '" target="_blank">Link</a></td></tr>';
+                                '</td>' + fix + '</tr>';
                         });
                         let table = $(
                             '<p class="results-date">Now</p><table><tr><th>Test</th><th>Status</th><th>Fix</th></tr><tr style="height:15px"></tr>' +
@@ -124,14 +112,6 @@
             });
         });
 
-        // $(".run-specific").click(function(){
-        //     $.get('/tests/run/' + ($(event.target).closest('button')).attr('test-id') + '/{{ $project_details->id }}', function(data, status){
-        //         let table = $('<p class="results-date">Now</p><table><tr><th>Test</th><th>Status</th><th>Fix</th></tr><tr style="height:15px"></tr><tr><td>' + data.test_name + '</td><td>' + data.result + '</td><td><a href="' + data.fix_link + '" target="_blank">Link</a></td></tr></table>').hide().fadeIn(1000);
-        //         $('#project-history').prepend(table);
-        //         $('#no-results-yet').hide();
-        //     });
-        // });
-
         $(".run-specific").click(function() {
             $.ajax({
                 type: 'POST',
@@ -145,11 +125,16 @@
                 },
                 success: function(results) {
                     if (results.result) {
+                        let fix = '<td><a href="' + results.fix_link +
+                            '" target="_blank">Link</a></td>';
+                        if (results.fix_link == 'passed') {
+                            fix = '<td>✓</td>';
+                        }
                         let table = $(
                             '<p class="results-date">Now</p><table><tr><th>Test</th><th>Status</th><th>Fix</th></tr><tr style="height:15px"></tr><tr><td>' +
-                            results.test_name + '</td><td>' + results.result +
-                            '</td><td><a href="' + results.fix_link +
-                            '" target="_blank">Link</a></td></tr></table>').hide().fadeIn(1000);
+                            results.test_name + '</td><td>' + results.result + '</td>' +
+                            fix +
+                            '</tr></table>').hide().fadeIn(1000);
                         $('#project-history').prepend(table);
                         $('#no-results-yet').hide();
                     } else {

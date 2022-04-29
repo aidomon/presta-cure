@@ -15,7 +15,7 @@ class History extends Model
     {
         return $this->belongsTo(Project::class);
     }
-    
+
     public function results()
     {
         return $this->hasMany(Result::class);

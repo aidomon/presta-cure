@@ -36,10 +36,8 @@ Route::get('/admin', [AdminController::class, 'show'])->middleware('auth', 'admi
 
 Route::get('/admin/load-tests', [AdminController::class, 'store'])->middleware('auth', 'admin');
 
-//Route::get('/tests/run/all/{project_id}', [AllTestsController::class, 'create'])->middleware('auth');
 Route::post('/tests/run/all', [AllTestsController::class, 'create'])->middleware('auth');
 
-// Route::get('/tests/run/{test_id}/{project_id}', [TestController::class, 'create']);
 Route::post('/tests/run/specific', [TestController::class, 'create'])->middleware('auth');
 
 require __DIR__ . '/auth.php';

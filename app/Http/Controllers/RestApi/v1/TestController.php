@@ -24,7 +24,7 @@ class TestController extends Controller
             return Test::findOrFail($request->test_id);
         } catch (ModelNotFoundException) {
             return response()->json([
-                'message' => 'nothing found',
+                'message' => 'No test with specified ID found',
             ], 400);
         }
     }
@@ -40,7 +40,7 @@ class TestController extends Controller
         try {
             $fields = $request->validate([
                 'test_id' => 'required|integer',
-                'project_id' => 'required|integer'
+                'project_id' => 'required|integer',
             ]);
 
             $project = auth()->user()->projects->where('id', $fields['project_id'])->first()->url;
@@ -71,7 +71,7 @@ class TestController extends Controller
         } catch (ModelNotFoundException | ErrorException $e) {
             return response([
                 'message' => 'Specified project or test not found',
-            ]);
+            ], 400);
         }
 
         return response($test_results);

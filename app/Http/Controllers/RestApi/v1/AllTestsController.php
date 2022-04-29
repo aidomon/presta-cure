@@ -84,7 +84,7 @@ class AllTestsController extends Controller
         } catch (ModelNotFoundException | ErrorException $e) {
             return response([
                 'message' => 'Specified project or test not found',
-            ]);
+            ], 400);
         }
 
         return response($all_test_results);
