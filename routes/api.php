@@ -26,7 +26,7 @@ Route::prefix('v1')->group(function () {
 
         Route::get('/test/{test_id}', [TestController::class, 'show']);
         Route::post('/test/run/specific', [TestController::class, 'create']);
-        
+
         Route::get('/tests', [AllTestsController::class, 'index']);
         Route::get('/tests/search/{str}', [AllTestsController::class, 'search']);
         Route::get('/tests/results/{project_id}', [ProjectResultsController::class, 'index']);
@@ -37,7 +37,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/projects', [ProjectsController::class, 'index']);
         Route::get('/projects/search/{str}', [ProjectsController::class, 'search']);
 
-        Route::put('/verify/{project:slug}', [ProjectController::class, 'update']);
+        Route::put('/verify/{project_id}', [ProjectsController::class, 'update']);
 
         Route::post('/dashboard/add-project', [ProjectController::class, 'create']);
     });

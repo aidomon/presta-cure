@@ -46,66 +46,52 @@ class PrestaShopVersion implements TestInterface
         $positive_counter_v1_5 = $positive_counter_v1_7;
         $positive_counter_v1_4 = $positive_counter_v1_7;
 
-        $positive_counter_v1_7 = $positive_counter_v1_7 + self::checkFilesOccurance($ps_files_v1_7, $url);
-        $positive_counter_v1_6 = $positive_counter_v1_6 + self::checkFilesOccurance($ps_files_v1_6, $url);
-        $positive_counter_v1_5 = $positive_counter_v1_5 + self::checkFilesOccurance($ps_files_v1_5, $url);
-        $positive_counter_v1_4 = $positive_counter_v1_4 + self::checkFilesOccurance($ps_files_v1_4, $url);
+        $positive_counter_v1_7 = $positive_counter_v1_7 + TestsHelperFunctions::checkFilesOccurance($ps_files_v1_7, $url);
+        $positive_counter_v1_6 = $positive_counter_v1_6 + TestsHelperFunctions::checkFilesOccurance($ps_files_v1_6, $url);
+        $positive_counter_v1_5 = $positive_counter_v1_5 + TestsHelperFunctions::checkFilesOccurance($ps_files_v1_5, $url);
+        $positive_counter_v1_4 = $positive_counter_v1_4 + TestsHelperFunctions::checkFilesOccurance($ps_files_v1_4, $url);
 
-        if (self::getHeaders($url) == true) {
+        if (self::checkPrestaShopCookie($url) == true) {
             ++$positive_counter_v1_7;
             ++$positive_counter_v1_6;
+            ++$positive_counter_v1_5;
+            ++$positive_counter_v1_4;
         }
 
-        $max = max($positive_counter_v1_7, $positive_counter_v1_6);
+        $max = max($positive_counter_v1_7, $positive_counter_v1_6, $positive_counter_v1_5, $positive_counter_v1_4);
         if ($max >= 3) {
             $result = '';
             switch ($max) {
+                case $positive_counter_v1_7:
+                    $result = "Webapp is running on PrestaShop 1.7";
+                    break;
                 case $positive_counter_v1_6:
                     $result = "Webapp is running on PrestaShop 1.6";
                     break;
-                case $positive_counter_v1_7:
-                    $result = "Webapp is running on PrestaShop 1.7";
+                case $positive_counter_v1_5:
+                    $result = "Webapp is running on PrestaShop 1.5";
+                    break;
+                case $positive_counter_v1_4:
+                    $result = "Webapp is running on PrestaShop 1.4";
                     break;
                 default:
                     $result = "Webapp is running on PrestaShop";
             }
-            return [
+            return json_encode([
                 'test_id' => Test::where('name', self::getName())->first()->id,
                 'test_name' => self::getName(),
-                'result' => $result,
-                'fix_link' => 'passed',
-            ];
+                'info' => $result,
+                'vulnerable' => true,
+                'fix_link' => self::getFixLink()
+            ]);
         } else {
-            return [
+            return json_encode([
                 'test_id' => Test::where('name', self::getName())->first()->id,
                 'test_name' => self::getName(),
-                'result' => 'Webapp is probably not running on PrestaShop',
-                'fix_link' => self::getFixLink(),
-            ];
+                'info' => 'Webapp is probably not running on PrestaShop',
+                'vulnerable' => false
+            ]);
         }
-    }
-
-    /**
-     * Check presence of specific files
-     *
-     * @param  mixed $array
-     * @param  mixed $url
-     * @return integer
-     */
-    private static function checkFilesOccurance($array, $url)
-    {
-        $counter = 0;
-        foreach ($array as $file) {
-            $file_check = curl_init($url . $file);
-            curl_setopt($file_check, CURLOPT_NOBODY, true);
-            curl_exec($file_check);
-            $status_code = curl_getinfo($file_check, CURLINFO_HTTP_CODE);
-            if ($status_code == 200 or $status_code == 403 or $status_code == 500) {
-                ++$counter;
-            }
-            curl_close($file_check);
-        }
-        return $counter;
     }
 
     /**
@@ -130,34 +116,9 @@ class PrestaShopVersion implements TestInterface
         return $counter;
     }
 
-    /**
-     * getHeaders
-     *
-     * @param  mixed $url
-     * @return boolean
-     */
-    private static function getHeaders($url)
+    public static function checkPrestaShopCookie($url)
     {
-        $header_check = curl_init();
-        curl_setopt($header_check, CURLOPT_URL, $url);
-        curl_setopt($header_check, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($header_check, CURLOPT_HEADER, 1);
-        curl_setopt($header_check, CURLOPT_NOBODY, 1);
-        $output = curl_exec($header_check);
-        curl_close($header_check);
-
-        $headers = [];
-        $output = rtrim($output);
-        $data = explode("\n", $output);
-        $headers['status'] = $data[0];
-        array_shift($data);
-
-        foreach ($data as $part) {
-            $middle = explode(":", $part, 2);
-            if (!isset($middle[1])) {$middle[1] = null;}
-            $headers[trim($middle[0])] = trim($middle[1]);
-        }
-
+        $headers = TestsHelperFunctions::getHeaders($url);
         if (array_key_exists('Set-Cookie', $headers)) {
             if (preg_match('/Prestashop/i', $headers['Set-Cookie'])) {
                 return true;
@@ -165,5 +126,4 @@ class PrestaShopVersion implements TestInterface
         }
         return false;
     }
-
 }

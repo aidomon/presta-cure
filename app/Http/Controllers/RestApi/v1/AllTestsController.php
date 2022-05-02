@@ -56,23 +56,25 @@ class AllTestsController extends Controller
 
             $all_test_results = array();
 
+            $history = new History();
+            $history->project_id = $fields['project_id'];
+            if (!$history->save()) {
+                return response()->json([
+                    'message' => 'Error while connecting to database',
+                ], 400);
+            }
+
             foreach ($tests as $test) {
                 $instance = 'App\Tests\\' . $test->class;
 
-                $test_result = $instance::detect($project_url);
-
-                $history = new History();
-                $history->project_id = $fields['project_id'];
-                if (!$history->save()) {
-                    return response()->json([
-                        'message' => 'Error while connecting to database',
-                    ], 400);
-                }
+                $test_result = json_decode($instance::detect($project_url));
 
                 $result = new Result();
                 $result->history_id = $history->id;
-                $result->test_id = $test_result['test_id'];
-                $result->result = $test_result['result'];
+                $result->test_id = $test_result->test_id;
+                $result->info = $test_result->info;
+                $result->vulnerable = $test_result->vulnerable;
+
                 if (!$result->save()) {
                     return response()->json([
                         'message' => 'Error while connecting to database',
@@ -87,6 +89,6 @@ class AllTestsController extends Controller
             ], 400);
         }
 
-        return response($all_test_results);
+        return response()->json($all_test_results);
     }
 }

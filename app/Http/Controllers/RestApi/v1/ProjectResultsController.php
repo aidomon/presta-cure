@@ -19,7 +19,7 @@ class ProjectResultsController extends Controller
     public function index(Request $request)
     {
         try {
-            $project = Project::findOrFail($request->project_id)->first();
+            $project = Project::findOrFail($request->project_id);
             if (Auth::user()->projects->contains($project) and $project->verified == 1 and $project->history->count() > 0) {
                 $results = array();
 

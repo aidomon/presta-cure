@@ -52,8 +52,8 @@ class DatabaseSeeder extends Seeder
 
         Project::create([
             'user_id' => 2,
-            'name' => 'HyggeStyle',
-            'url' => 'https://hyggestyle.cz',
+            'name' => 'CoPodniknout',
+            'url' => 'https://copodniknout.cz',
             'slug' => 'hyggestyle',
             'verified' => 1
         ]);

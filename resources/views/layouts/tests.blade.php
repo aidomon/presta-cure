@@ -8,7 +8,11 @@
             @foreach ($tests as $test)
                 <div id="{{ strtolower(str_replace(' ', '', $test->name)) }}">
                     <h4>{{ $test->name }}</h4>
-                    <p>{{ $test->description }}</p>
+                    @if (str_contains($test->description, '<p>'))
+                        {!! $test->description !!}<div style="height:10px"></div>
+                    @else
+                        <p>{!! $test->description !!}</p>
+                    @endif
                     <a href="{{ $test->fix_link }}">Fix link</a>
                 </div>
             @endforeach

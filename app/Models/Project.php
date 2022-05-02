@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use ErrorException;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Project extends Model
 {
@@ -29,8 +30,12 @@ class Project extends Model
 
     public static function extractProjectNameFromUrl($url)
     {
-        $url = parse_url($url)["host"];
-        $host_names = explode(".", $url);
-        return ucfirst($host_names[count($host_names) - 2]);
+        if (str_contains($url, 'http')) {
+            $url = parse_url($url)["host"];
+            $host_names = explode(".", $url);
+            return ucfirst($host_names[count($host_names) - 2]);
+        } else {
+            return false;
+        }
     }
 }

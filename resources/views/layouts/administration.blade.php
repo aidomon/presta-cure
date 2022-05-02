@@ -19,10 +19,10 @@
 
         $("#run-all").click(function(){
             $.get("/admin/load-tests", function(data, status){
-                $('#loader-or-run').html('<p style="color:#16a44a">' + data.status + '</p>');
+                $('#loader-or-run').html(data.status);
                 setTimeout(function() {
                     $('#loader-or-run').html('<p>LOAD ALL</p>');
-                }, 2500);
+                }, 3000);
             });
         });
 

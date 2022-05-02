@@ -43,12 +43,12 @@ class TestController extends Controller
                 'project_id' => 'required|integer',
             ]);
 
-            $project = auth()->user()->projects->where('id', $fields['project_id'])->first()->url;
-            if ($project == null) {
+            $project_url = auth()->user()->projects->where('id', $fields['project_id'])->first()->url;
+            if ($project_url == null) {
                 throw new ErrorException;
             }
             $instance = 'App\Tests\\' . Test::findOrFail($fields['test_id'])->class;
-            $test_results = $instance::detect($project);
+            $test_results = json_decode($instance::detect($project_url));
 
             $history = new History();
             $history->project_id = $fields['project_id'];
@@ -60,8 +60,10 @@ class TestController extends Controller
 
             $result = new Result();
             $result->history_id = $history->id;
-            $result->test_id = $test_results['test_id'];
-            $result->result = $test_results['result'];
+            $result->test_id = $test_results->test_id;
+            $result->info = $test_results->info;
+            $result->vulnerable = $test_results->vulnerable;
+
             if (!$result->save()) {
                 return response()->json([
                     'message' => 'Error while connecting to database',
@@ -74,6 +76,6 @@ class TestController extends Controller
             ], 400);
         }
 
-        return response($test_results);
+        return response()->json($test_results);
     }
 }

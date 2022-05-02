@@ -12,19 +12,19 @@ class LoadAllTests
      */
     public static function loadTests(): void
     {
-        $classes = array_values(array_diff(scandir(__dir__), array('.', '..', 'LoadAllTests.php', 'TestInterface.php')));
+        $classes = array_values(array_diff(scandir(__dir__), array('.DS_Store', '.', '..', 'LoadAllTests.php', 'TestInterface.php', 'TestsHelperFunctions.php')));
 
         //disable foreign key check for this connection before running seeders
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        Test::truncate();
+        //Test::truncate();
 
         foreach ($classes as $class) {
             $class_name = strstr($class, '.', true);
-            $instance = 'App\Tests\\' . $class_name;
+            $instance = '\App\Tests\\' . $class_name;
 
             $test_type = new $instance;
 
-            Test::create([
+            Test::updateOrCreate([
                 'name' => $test_type::getName(),
                 'description' => $test_type::getDescription(),
                 'fix_link' => $test_type::getFixLink(),

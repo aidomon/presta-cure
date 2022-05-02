@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeShowController::class)->name('home');
 
-Route::put('/verify/{project:slug}', [ProjectController::class, 'update'])->middleware('auth')->name('verify-project');
+Route::put('/verify/{project_id}', [ProjectController::class, 'update'])->middleware('auth')->name('verify-project');
 
 Route::get('/dashboard', DashboardIndexController::class)->middleware(['auth'])->name('dashboard');
 
@@ -36,8 +36,10 @@ Route::get('/admin', [AdminController::class, 'show'])->middleware('auth', 'admi
 
 Route::get('/admin/load-tests', [AdminController::class, 'store'])->middleware('auth', 'admin');
 
+Route::delete('/project/delete/{project_id}', [ProjectController::class, 'destroy'])->middleware('auth');
+
 Route::post('/tests/run/all', [AllTestsController::class, 'create'])->middleware('auth');
 
-Route::post('/tests/run/specific', [TestController::class, 'create'])->middleware('auth');
+Route::post('/test/run/specific', [TestController::class, 'create'])->middleware('auth');
 
 require __DIR__ . '/auth.php';

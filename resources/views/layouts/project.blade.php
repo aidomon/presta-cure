@@ -8,7 +8,7 @@
         <div id="run-all-div">
             <button class="run-all-id" id="run-all">
                 <div id="loader-or-run">
-                    <p>RUN ALL</p>
+                    <p>RUN ALL<br><span>May take up to 3 minutes</span></p>
                 </div>
             </button>
         </div>
@@ -37,7 +37,7 @@
             @if ($project_history->count() != 0)
                 @foreach ($project_history as $history)
                     @if ($history->results->count() > 0)
-                        <p class="results-date">{{ $history->created_at->diffForHumans() }}</p>
+                        <p class="results-date">{{ $history->created_at->format('d.m.Y G:i') }}</p>
                         <table>
                             <tr>
                                 <th>Test</th>
@@ -49,11 +49,9 @@
                             @foreach ($history->results as $result)
                                 <tr>
                                     <td>{{ $result->tests->name }}</td>
-                                    <td>{{ $result->result }}</td>
-                                    @if ($result->tests->fix_link == null)
-                                        {
-                                        <td><a href="javascript:;">-</a></td>
-                                        }
+                                    <td>{{ $result->info }}</td>
+                                    @if (!$result->vulnerable)
+                                        <td>Not vulnerable</td>
                                     @else
                                         <td><a href="{{ $result->tests->fix_link }}">Link</a></td>
                                     @endif
@@ -89,14 +87,17 @@
                     if (!results.message) {
                         let table_rows = "";
                         results.forEach(element => {
-                            let fix = '<td><a href="' + element.fix_link +
-                                '" target="_blank">Link</a></td>';
-                            if (element.fix_link == 'passed') {
-                                fix = '<td>✓</td>';
+                            let fix = '';
+                            if (element.vulnerable == false) {
+                                fix = '<td>Not vulnerable</td>';
+                            } else {
+                                fix = '<td><a href="' + element.fix_link +
+                                    '" target="_blank">Link</a></td>';
                             }
+
                             table_rows += '<tr><td>' + element.test_name + '</td><td>' + element
-                                .result +
-                                '</td>' + fix + '</tr>';
+                                .info +
+                                '</td>' + fix + '</tr><tr style="height:10px"></tr>';
                         });
                         let table = $(
                             '<p class="results-date">Now</p><table><tr><th>Test</th><th>Status</th><th>Fix</th></tr><tr style="height:15px"></tr>' +
@@ -104,10 +105,11 @@
                         $('#project-history').prepend(table);
                         $('#no-results-yet').hide();
                     } else {
-                        $(document.body).append(
-                            "<div class='status status-active'><p>Something went wrong. Didn\'t receive any reponse.</p></div>"
-                        );
+                        displayError()
                     }
+                },
+                error: function() {
+                    displayError();
                 }
             });
         });
@@ -115,7 +117,7 @@
         $(".run-specific").click(function() {
             $.ajax({
                 type: 'POST',
-                url: '/tests/run/specific',
+                url: '/test/run/specific',
                 data: {
                     test_id: ($(event.target).closest('button')).attr('test-id'),
                     project_id: '{{ $project_details->id }}'
@@ -124,24 +126,27 @@
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
                 success: function(results) {
-                    if (results.result) {
-                        let fix = '<td><a href="' + results.fix_link +
-                            '" target="_blank">Link</a></td>';
-                        if (results.fix_link == 'passed') {
-                            fix = '<td>✓</td>';
+                    if (results.test_name) {
+                        let fix = '';
+                        if (results.vulnerable == false) {
+                            fix = '<td>Not vulnerable</td>';
+                        } else {
+                            fix = '<td><a href="' + results.fix_link +
+                                '" target="_blank">Link</a></td>';
                         }
                         let table = $(
                             '<p class="results-date">Now</p><table><tr><th>Test</th><th>Status</th><th>Fix</th></tr><tr style="height:15px"></tr><tr><td>' +
-                            results.test_name + '</td><td>' + results.result + '</td>' +
+                            results.test_name + '</td><td>' + results.info + '</td>' +
                             fix +
                             '</tr></table>').hide().fadeIn(1000);
                         $('#project-history').prepend(table);
                         $('#no-results-yet').hide();
                     } else {
-                        $(document.body).append(
-                            "<div class='status status-active'><p>Something went wrong. Didn\'t receive any reponse.</p></div>"
-                        );
+                        displayError();
                     }
+                },
+                error: function() {
+                    displayError();
                 }
             });
         });
@@ -159,12 +164,18 @@
 
         $(document).ajaxStop(function() {
             if (clicked_class == "run-all-id") {
-                $('#loader-or-run').html('<p>RUN ALL</p>');
+                $('#loader-or-run').html('<p>RUN ALL<br><span>May take up to 3 minutes</span></p>');
             }
             if (clicked_class == "run-specific") {
                 (clicked.find('.loader-or-run-specific')).html('<img src="/images/play-button.svg">');
             }
         });
+
+        function displayError() {
+            $(document.body).append(
+                "<div class='status status-active'><p>Something went wrong. Didn\'t receive any reponse.</p></div>"
+            );
+        }
     </script>
 
 </x-dashboard>

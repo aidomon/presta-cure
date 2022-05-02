@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Tests\LoadAllTests;
-use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
@@ -15,8 +13,12 @@ class AdminController extends Controller
      */
     public function store()
     {
-        LoadAllTests::loadTests();
-        return response()->json(['status'=>'SUCCESS']);
+        try {
+            LoadAllTests::loadTests();
+            return response()->json(['status' => '<p style="color:#16a44a">Success</p>']);
+        } catch (\Throwable$th) {
+            return response()->json(['status' => '<p style="color:red">Something went wrong. Check test files syntax.</p>']);
+        }
     }
 
     /**

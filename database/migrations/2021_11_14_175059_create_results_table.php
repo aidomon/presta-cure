@@ -18,7 +18,8 @@ class CreateResultsTable extends Migration
             $table->id();
             $table->foreignId('history_id');
             $table->foreignId('test_id')->constrained('tests')->onDelete('restrict')->onUpdate('cascade');
-            $table->string('result');
+            $table->string('info');
+            $table->boolean('vulnerable');
             $table->timestamp('created_at');
         });
     }
