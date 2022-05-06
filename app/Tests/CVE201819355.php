@@ -3,6 +3,8 @@
 namespace App\Tests;
 
 use App\Models\Test;
+use App\Models\Result;
+use App\Models\Project;
 
 /**
  *
@@ -29,26 +31,38 @@ class CVE201819355 implements TestInterface
     /**
      * Detect method
      *
-     * @param  mixed $url
-     * @return void
+     * @param  Project $project
+     * @return json
      */
-    public static function detect($url)
+    public static function detect(Project $project)
     {
-        if (TestsHelperFunctions::checkFilesOccurance(array('/modules/orderfiles/upload.php'), $url) > 0) {
-            return json_encode([
-                'test_id' => Test::where('name', self::getName())->first()->id,
-                'test_name' => self::getName(),
-                'info' => 'Webapp may be vulnerable as it uses vulnerable OrderFiles addon - update it.',
-                'vulnerable' => true,
-                'fix_link' => self::getFixLink()
-            ]);
+        $prestashop_version = Result::getPrestaShopVersion($project->id);
+
+        if ($prestashop_version == '1.5' || $prestashop_version == '1.6' || $prestashop_version == '1.7') {
+            if (TestsHelperFunctions::checkFilesOccurance(array('/modules/orderfiles/upload.php'), $project->url) > 0) {
+                return json_encode([
+                    'test_id' => Test::where('name', self::getName())->first()->id,
+                    'test_name' => self::getName(),
+                    'info' => 'Webapp may be vulnerable as it uses vulnerable OrderFiles addon - update it',
+                    'vulnerable' => true,
+                    'fix_link' => self::getFixLink()
+                ]);
+            } else {
+                return json_encode([
+                    'test_id' => Test::where('name', self::getName())->first()->id,
+                    'test_name' => self::getName(),
+                    'info' => 'Webapp doesn\'t use OrderFiles addon',
+                    'vulnerable' => false,
+                ]);
+            }
         } else {
             return json_encode([
                 'test_id' => Test::where('name', self::getName())->first()->id,
                 'test_name' => self::getName(),
-                'info' => 'Webapp doesn\'t use OrderFiles addon.',
-                'vulnerable' => false,
+                'info' => 'Run PrestaShop version check first for more precise result',
+                'vulnerable' => false
             ]);
         }
+
     }
 }

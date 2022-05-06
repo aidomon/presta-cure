@@ -2,11 +2,14 @@
 
 namespace App\Tests;
 
+use App\Models\Project;
 use App\Models\Test;
 
 /**
  *
  * Run PrestaShop version check
+ *
+ * DO NOT DELETE OR RENAME THIS PENTEST AS IT IS THE BASIS FOR ANOTHER PENTESTS
  */
 class PrestaShopVersion implements TestInterface
 {
@@ -29,11 +32,13 @@ class PrestaShopVersion implements TestInterface
     /**
      * Detect method
      *
-     * @param  mixed $url
-     * @return void
+     * @param  Project $project
+     * @return json
      */
-    public static function detect($url)
+    public static function detect(Project $project)
     {
+        $url = $project->url;
+
         $ps_files_v1_7 = array('/autoload.php', '/controllers/admin/AdminCarrierWizardController.php', '/classes/PrestaShopCollection.php', '/img/preston-login-wink@2x.png');
         $ps_files_v1_6 = array('/header.php', '/css/retro-compat.css.php', '/classes/Theme.php', '/admin/tabs/index.php', '/controllers/admin/AdminZonesController.php');
         $ps_files_v1_5 = array('/category.php', '/product.php', '/admin/uploadProductFile.php', '/classes/Backup.php', '/css/admin.css');
@@ -41,7 +46,7 @@ class PrestaShopVersion implements TestInterface
 
         $ps_html = array('/name="generator"\s*content="PrestaShop"/i', '/var prestashop\s*=\s*{/i', '/Powered by PrestaShop/i');
 
-        $positive_counter_v1_7 = self::checkHTMLOccurance($ps_html, $url);
+        $positive_counter_v1_7 = self::checkHTMLOccurance($ps_html, $project->url);
         $positive_counter_v1_6 = $positive_counter_v1_7;
         $positive_counter_v1_5 = $positive_counter_v1_7;
         $positive_counter_v1_4 = $positive_counter_v1_7;
@@ -82,14 +87,14 @@ class PrestaShopVersion implements TestInterface
                 'test_name' => self::getName(),
                 'info' => $result,
                 'vulnerable' => true,
-                'fix_link' => self::getFixLink()
+                'fix_link' => self::getFixLink(),
             ]);
         } else {
             return json_encode([
                 'test_id' => Test::where('name', self::getName())->first()->id,
                 'test_name' => self::getName(),
                 'info' => 'Webapp is probably not running on PrestaShop',
-                'vulnerable' => false
+                'vulnerable' => false,
             ]);
         }
     }

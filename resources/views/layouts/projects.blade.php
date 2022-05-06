@@ -61,7 +61,7 @@
             if (confirm("Are you sure you want to delete " + project.html() + " project?") == true) {
                 $.ajax({
                     type: 'DELETE',
-                    url: '/project/delete/' + project.attr('project-id'),
+                    url: '/project/' + project.attr('project-id') + '/delete',
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
                     },

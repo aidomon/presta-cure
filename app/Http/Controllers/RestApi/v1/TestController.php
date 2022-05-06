@@ -43,12 +43,12 @@ class TestController extends Controller
                 'project_id' => 'required|integer',
             ]);
 
-            $project_url = auth()->user()->projects->where('id', $fields['project_id'])->first()->url;
-            if ($project_url == null) {
+            $project = auth()->user()->projects->where('id', $fields['project_id'])->first();
+            if (!$project) {
                 throw new ErrorException;
             }
             $instance = 'App\Tests\\' . Test::findOrFail($fields['test_id'])->class;
-            $test_results = json_decode($instance::detect($project_url));
+            $test_results = json_decode($instance::detect($project));
 
             $history = new History();
             $history->project_id = $fields['project_id'];

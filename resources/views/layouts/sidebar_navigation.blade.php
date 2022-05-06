@@ -6,28 +6,27 @@
         </a>
         <!-- Settings Dropdown -->
         <div id="user-options">
-                <x-dropdown>
-                    <x-slot name="trigger">
-                        <button>
-                            <div><img src="/images/profile.svg" alt="PrestaCure profile"><span>{{ Auth::user()->username }}</span></div>
-                        </button>
-                    </x-slot>
+            <x-dropdown>
+                <x-slot name="trigger">
+                    <button>
+                        <div><img src="/images/profile.svg"
+                                alt="PrestaCure profile"><span>{{ Auth::user()->username }}</span></div>
+                    </button>
+                </x-slot>
 
-                    <x-slot name="content">
-                        <!-- Authentication -->
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
+                <x-slot name="content">
+                    <!-- Authentication -->
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <a href="{{ route('account') }}">Account</a>
+                        <x-dropdown-link :href="route('logout')" onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('Log Out') }}
-                            </x-dropdown-link>
-
-                        </form>
-                        <!-- <a href="DOPLNIT {} route('account') ">Account</a> -->
-                    </x-slot>
-                </x-dropdown>
-            </div>
+                            {{ __('Log Out') }}
+                        </x-dropdown-link>
+                    </form>
+                </x-slot>
+            </x-dropdown>
+        </div>
         <div class="menu">
             @if (\App\Models\User::first()->username == Auth::user()->username)
                 <h2><a href="{{ route('admin-panel') }}">Admin Panel</a></h2>

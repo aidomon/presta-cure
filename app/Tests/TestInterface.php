@@ -2,6 +2,8 @@
 
 namespace App\Tests;
 
+use App\Models\Project;
+
 /**
  *
  * Run PrestaShop version check
@@ -36,6 +38,6 @@ interface TestInterface
      * @param  mixed $url
      * @return void
      */
-    public static function detect($url);
+    public static function detect(Project $project);
 
 }

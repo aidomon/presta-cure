@@ -2,48 +2,43 @@
 
 namespace App\Http\Controllers\RestApi\v1;
 
-use ErrorException;
-use App\Models\Result;
+use App\Http\Controllers\Controller;
 use App\Models\History;
 use App\Models\Project;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Result;
+use ErrorException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
 
-class ProjectController extends Controller
+class ProjectHandleController extends Controller
 {
     /**
-     * Create new project.
+     * Verify new project.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Project  $project
      * @return Response
      */
-    public function create(Request $request)
+    public function update(Request $request)
     {
-        request()->validate([
-            'new_project' => 'required|url',
-        ]);
+        $requested_project = $request->user()->projects->where('id', $request->project_id)->first();
+        $file_check = curl_init($requested_project->url . '/prestacure.html');
 
-        $project = new Project;
+        curl_setopt($file_check, CURLOPT_NOBODY, true);
+        curl_exec($file_check);
+        curl_close($file_check);
 
-        $project->name = Project::extractProjectNameFromUrl($request->new_project);
-        $project->user_id = Auth::id();
-        $project->url = $request->new_project;
-        $project->verified = 0;
-        $project->slug = Project::createUrlSlug($project->name);
-
-        if ($project->save()) {
-            return response([
-                'message' => 'Project successfuly created. Don\'t forget to verify it\'s ownership.',
-                'project_slug' => $project->slug,
-            ], 201);
-        } else {
-            return response([
-                'message' => 'Something went wrong.',
-            ], 500);
+        if (curl_getinfo($file_check, CURLINFO_HTTP_CODE) == 200) {
+            $requested_project->verified = 1;
+            if ($requested_project->save()) {
+                return response([
+                    'message' => 'Your project has been verified. Start pentesting!',
+                ]);
+            }
         }
 
+        return response([
+            'message' => 'Specified file is not present. Project not verified!',
+        ], 400);
     }
 
     /**
@@ -54,14 +49,11 @@ class ProjectController extends Controller
      */
     public function show(Request $request)
     {
-        request()->validate([
-            'project_id' => 'required|int',
-        ]);
         $requested_project = $request->user()->projects->where('id', $request->project_id)->first();
         if (!empty($requested_project)) {
             return response($requested_project);
         } else {
-            return response([
+            return response()->json([
                 'message' => 'No project with ID=' . $request->project_id . ' found',
             ], 400);}
     }

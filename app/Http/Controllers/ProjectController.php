@@ -2,12 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\History;
 use App\Models\Project;
-use App\Models\Result;
 use App\Models\Test;
-use ErrorException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -79,35 +75,5 @@ class ProjectController extends Controller
         }
 
         return redirect('/dashboard')->with('status', 'Specified file is not present. Project not verified');
-    }
-
-    /**
-     * destroy
-     *
-     * @param  Request $request
-     * @return void
-     */
-    public function destroy(Request $request)
-    {
-        try {
-            $histories = History::where('project_id', $request->project_id);
-
-            foreach ($histories->get() as $history) {
-                Result::where('history_id', $history->id)->delete();
-            }
-
-            $histories->delete();
-
-            Project::findOrFail($request->project_id)->delete();
-
-            return response()->json([
-                'message' => 'Project successfully deleted',
-            ], 200);
-
-        } catch (ModelNotFoundException | ErrorException $e) {
-            return response()->json([
-                'message' => 'Error while connecting to database',
-            ], 500);
-        }
     }
 }

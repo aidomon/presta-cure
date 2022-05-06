@@ -1,13 +1,15 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\DashboardIndexController;
-use App\Http\Controllers\HomeShowController;
-use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\RestApi\v1\AllTestsController;
-use App\Http\Controllers\RestApi\v1\TestController;
-use App\Http\Controllers\TestIndexController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AccountController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\HomeShowController;
+use App\Http\Controllers\TestIndexController;
+use App\Http\Controllers\DashboardIndexController;
+use App\Http\Controllers\RestApi\v1\TestController;
+use App\Http\Controllers\RestApi\v1\AllTestsController;
+use App\Http\Controllers\RestApi\v1\ProjectHandleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,13 +32,17 @@ Route::post('/dashboard/add-project', [ProjectController::class, 'create'])->mid
 
 Route::get('/dashboard/tests', TestIndexController::class)->middleware(['auth'])->name('tests');
 
+Route::get('/dashboard/account', [AccountController::class, 'show'])->middleware(['auth'])->name('account');
+
+Route::post('/dashboard/account/change-password', [AccountController::class, 'update'])->middleware(['auth']);
+
 Route::get('/dashboard/{project:slug}', [ProjectController::class, 'show'])->middleware(['auth']);
 
 Route::get('/admin', [AdminController::class, 'show'])->middleware('auth', 'admin')->name('admin-panel');
 
 Route::get('/admin/load-tests', [AdminController::class, 'store'])->middleware('auth', 'admin');
 
-Route::delete('/project/delete/{project_id}', [ProjectController::class, 'destroy'])->middleware('auth');
+Route::delete('/project/{project_id}/delete', [ProjectHandleController::class, 'destroy'])->middleware('auth');
 
 Route::post('/tests/run/all', [AllTestsController::class, 'create'])->middleware('auth');
 

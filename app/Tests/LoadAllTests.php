@@ -14,6 +14,11 @@ class LoadAllTests
     {
         $classes = array_values(array_diff(scandir(__dir__), array('.DS_Store', '.', '..', 'LoadAllTests.php', 'TestInterface.php', 'TestsHelperFunctions.php')));
 
+        if (in_array('PrestaShopVersion.php', $classes)) {
+            $classes = array_values(array_diff($classes, ['PrestaShopVersion.php']));
+            array_unshift($classes, 'PrestaShopVersion.php');
+        }
+
         //disable foreign key check for this connection before running seeders
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         //Test::truncate();

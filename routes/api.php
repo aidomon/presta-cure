@@ -1,12 +1,12 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\RestApi\v1\AuthController;
-use App\Http\Controllers\RestApi\v1\TestController;
-use App\Http\Controllers\RestApi\v1\ProjectController;
 use App\Http\Controllers\RestApi\v1\AllTestsController;
-use App\Http\Controllers\RestApi\v1\ProjectsController;
+use App\Http\Controllers\RestApi\v1\AuthController;
+use App\Http\Controllers\RestApi\v1\ProjectHandleController;
 use App\Http\Controllers\RestApi\v1\ProjectResultsController;
+use App\Http\Controllers\RestApi\v1\ProjectsController;
+use App\Http\Controllers\RestApi\v1\TestController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,17 +29,16 @@ Route::prefix('v1')->group(function () {
 
         Route::get('/tests', [AllTestsController::class, 'index']);
         Route::get('/tests/search/{str}', [AllTestsController::class, 'search']);
-        Route::get('/tests/results/{project_id}', [ProjectResultsController::class, 'index']);
         Route::post('/tests/run/all', [AllTestsController::class, 'create']);
 
-        Route::get('/project/{project_id}', [ProjectController::class, 'show']);
+        Route::get('/project/{project_id}', [ProjectHandleController::class, 'show']);
+        Route::delete('/project/{project_id}/delete', [ProjectHandleController::class, 'destroy']);
+        Route::get('/project/{project_id}/results', [ProjectResultsController::class, 'index']);
+        Route::put('/project/verify/{project_id}', [ProjectHandleController::class, 'update']);
 
         Route::get('/projects', [ProjectsController::class, 'index']);
         Route::get('/projects/search/{str}', [ProjectsController::class, 'search']);
-
-        Route::put('/verify/{project_id}', [ProjectsController::class, 'update']);
-
-        Route::post('/dashboard/add-project', [ProjectController::class, 'create']);
+        Route::post('/projects/add-project', [ProjectsController::class, 'create']);
     });
 
     // Public routes

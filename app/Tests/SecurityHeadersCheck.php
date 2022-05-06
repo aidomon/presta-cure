@@ -2,6 +2,7 @@
 
 namespace App\Tests;
 
+use App\Models\Project;
 use App\Models\Test;
 
 /**
@@ -36,12 +37,12 @@ class SecurityHeadersCheck implements TestInterface
     /**
      * Detect method
      *
-     * @param  mixed $url
-     * @return void
+     * @param  Project $project
+     * @return json
      */
-    public static function detect($url)
+    public static function detect(Project $project)
     {
-        $result = self::checkHeader(TestsHelperFunctions::getHeaders($url));
+        $result = self::checkHeader(TestsHelperFunctions::getHeaders($project->url));
         if (strlen($result) > 0) {
             return json_encode([
                 'test_id' => Test::where('name', self::getName())->first()->id,

@@ -20,35 +20,35 @@ class ProjectsController extends Controller
     }
 
     /**
-     * Verify new project.
+     * Create new project.
      *
-     * @param  Project  $project
+     * @param  \Illuminate\Http\Request  $request
      * @return Response
      */
-    public function update(Request $request)
+    public function create(Request $request)
     {
         request()->validate([
-            'project_id' => 'required|int',
+            'new_project' => 'required|url',
         ]);
-        $requested_project = $request->user()->projects->where('id', $request->project_id)->first();
-        $file_check = curl_init($requested_project->url . '/prestacure.html');
 
-        curl_setopt($file_check, CURLOPT_NOBODY, true);
-        curl_exec($file_check);
-        curl_close($file_check);
+        $project = new Project;
 
-        if (curl_getinfo($file_check, CURLINFO_HTTP_CODE) == 200) {
-            $requested_project->verified = 1;
-            if ($requested_project->save()) {
-                return response([
-                    'message' => 'Your project has been verified. Start pentesting!',
-                ]);
-            }
+        $project->name = Project::extractProjectNameFromUrl($request->new_project);
+        $project->user_id = Auth::id();
+        $project->url = $request->new_project;
+        $project->verified = 0;
+        $project->slug = Project::createUrlSlug($project->name);
+
+        if ($project->save()) {
+            return response([
+                'message' => 'Project successfuly created. Don\'t forget to verify it\'s ownership.',
+                'project_slug' => $project->slug,
+            ], 201);
+        } else {
+            return response([
+                'message' => 'Something went wrong.',
+            ], 500);
         }
-
-        return response([
-            'message' => 'Specified file is not present. Project not verified!',
-        ], 400);
     }
 
     /**

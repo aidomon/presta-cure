@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\RestApi\v1;
 
-use App\Http\Controllers\Controller;
-use App\Models\History;
-use App\Models\Result;
-use App\Models\Test;
+use Error;
 use ErrorException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Models\Test;
+use App\Models\Result;
+use App\Models\History;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+
+use function PHPUnit\Framework\isEmpty;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AllTestsController extends Controller
 {
@@ -48,8 +51,8 @@ class AllTestsController extends Controller
                 'project_id' => 'required|integer',
             ]);
 
-            $project_url = auth()->user()->projects->where('id', $fields['project_id'])->first()->url;
-            if ($project_url == null) {
+            $project = auth()->user()->projects->where('id', $fields['project_id'])->first();
+            if (!$project) {
                 throw new ErrorException;
             }
             $tests = Test::all();
@@ -67,7 +70,7 @@ class AllTestsController extends Controller
             foreach ($tests as $test) {
                 $instance = 'App\Tests\\' . $test->class;
 
-                $test_result = json_decode($instance::detect($project_url));
+                $test_result = json_decode($instance::detect($project));
 
                 $result = new Result();
                 $result->history_id = $history->id;

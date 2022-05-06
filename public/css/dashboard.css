@@ -64,6 +64,12 @@ nav h2 {
 nav a {
     color: white;
 }
+nav form {
+    display: inline-grid;
+}
+nav form a:nth-of-type(2){
+    margin-top: 5px;
+}
 
 main {
     margin-left: 300px;
@@ -400,3 +406,31 @@ input::-webkit-contacts-auto-fill-button {
         bottom: -100px;
     }
 }
+
+#change-password-form {
+    margin-top: 10px;
+}
+#change-password-form input {
+    text-align: left;
+    border: none;
+    border-bottom: 1px solid #e2336f;
+    background-color: white;
+    padding: 5px 0px;
+    font-size: 14px;
+    max-width: 200px;
+    font-family: "Open Sans", sans-serif;
+    margin-top: 10px;
+}
+#change-password-form button {
+    width: 150px;
+    background-color: #e2336f;
+    color: white;
+    font-size: 14px;
+    margin-top: 25px;
+    padding: 5px 10px;
+    font-family: "Open Sans", sans-serif;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+

@@ -3,6 +3,7 @@
 namespace App\Tests;
 
 use App\Models\Test;
+use App\Models\Project;
 
 /**
  *
@@ -29,12 +30,12 @@ class GitRepoCheck implements TestInterface
     /**
      * Detect method
      *
-     * @param  mixed $url
-     * @return void
+     * @param  Project $project
+     * @return json
      */
-    public static function detect($url)
+    public static function detect(Project $project)
     {
-        if (TestsHelperFunctions::checkFilesOccurance(array('/.git'), $url) > 0) {
+        if (TestsHelperFunctions::checkFilesOccurance(array('/.git'), $project->url) > 0) {
             return json_encode([
                 'test_id' => Test::where('name', self::getName())->first()->id,
                 'test_name' => self::getName(),
