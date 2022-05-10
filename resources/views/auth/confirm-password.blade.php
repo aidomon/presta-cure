@@ -7,7 +7,7 @@
         <!-- Validation Errors -->
         <x-auth-validation-errors :errors="$errors" />
 
-        <form method="POST" action="{{ route('password.confirm') }}">
+        <form id="form" method="POST" action="{{ route('password.confirm') }}">
             @csrf
             <h1>Confirm password</h1>
             <hr>

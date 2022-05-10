@@ -1,4 +1,4 @@
-<form id="login-form" method="POST" action="{{ route('login') }}">
+<form id="form" method="POST" action="{{ route('login') }}">
     @csrf
 
     <!-- Email Address -->

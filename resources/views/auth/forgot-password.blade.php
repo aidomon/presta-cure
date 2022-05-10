@@ -6,7 +6,7 @@
     <!-- Validation Errors -->
     <x-auth-validation-errors :errors="$errors" />
 
-    <form method="POST" action="{{ route('password.email') }}">
+    <form id="form" method="POST" action="{{ route('password.email') }}">
         @csrf
 
         <h1>Forgot password?</h1>
