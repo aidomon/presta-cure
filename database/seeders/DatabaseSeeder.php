@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use App\Models\Project;
+use App\Models\User;
 use App\Tests\LoadAllTests;
 use Illuminate\Database\Seeder;
 
@@ -23,39 +23,9 @@ class DatabaseSeeder extends Seeder
         LoadAllTests::loadTests();
 
         User::create([
-            'username' => 'Dominik',
-            'email' => 'dominik@email.cz',
-            'password' => '$2y$10$xv.rT6N5VFShT2UPWH4JputiizMxqsXclDsH0lTFERphkFBYAxLOa'
-        ]);
-
-        Project::create([
-            'user_id' => 1,
-            'name' => 'Testps',
-            'url' => 'http://testps.loc',
-            'slug' => 'testps',
-            'verified' => 1
-        ]);
-
-        Project::create([
-            'user_id' => 1,
-            'name' => 'Weblift',
-            'url' => 'https://weblift.cz',
-            'slug' => 'weblift',
-            'verified' => 1
-        ]);
-
-        User::create([
-            'username' => 'Paja',
-            'email' => 'paja@email.cz',
-            'password' => '$2y$10$xv.rT6N5VFShT2UPWH4JputiizMxqsXclDsH0lTFERphkFBYAxLOa'
-        ]);
-
-        Project::create([
-            'user_id' => 2,
-            'name' => 'CoPodniknout',
-            'url' => 'https://copodniknout.cz',
-            'slug' => 'hyggestyle',
-            'verified' => 1
+            'username' => 'Admin',
+            'email' => 'admin@email.cz',
+            'password' => '$2y$10$/RxkMzp1hHCFgCCceQ6JEek4SQ0eeyVCBuV1J8P2bqLxOxoQhqitS',
         ]);
     }
 }
