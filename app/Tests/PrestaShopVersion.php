@@ -29,20 +29,14 @@ class PrestaShopVersion implements TestInterface
         return 'The PrestaShop check test is verifying that your targeted website is running on PrestaShop platform and which version. It is not infallible but it is required to run the tests against PrestaShop to get the best results possible.';
     }
 
-    /**
-     * Detect method
-     *
-     * @param  Project $project
-     * @return json
-     */
     public static function detect(Project $project)
     {
         $url = $project->url;
 
-        $ps_files_v1_7 = array('/autoload.php', '/controllers/admin/AdminCarrierWizardController.php', '/classes/PrestaShopCollection.php', '/img/preston-login-wink@2x.png');
-        $ps_files_v1_6 = array('/header.php', '/css/retro-compat.css.php', '/classes/Theme.php', '/admin/tabs/index.php', '/controllers/admin/AdminZonesController.php');
-        $ps_files_v1_5 = array('/category.php', '/product.php', '/admin/uploadProductFile.php', '/classes/Backup.php', '/css/admin.css');
-        $ps_files_v1_4 = array('/css/datePicker.css', '/admin/ajax_send_mail_test.php', '/pagination.php', '/classes/CacheFS.php', '/config/autoload.php');
+        $ps_files_v1_7 = array('/autoload.php', '/controllers/admin/AdminCarrierWizardController.php', '/classes/PrestaShopCollection.php', '/img/preston-login-wink@2x.png', '/img/l/mk-default-home_default.jpg', '/override/classes/checkout', '/classes/EmployeeSession.php', '/config/services', '/controllers/admin: DummyAdminController.php', '/js/tiny_mce/langs/uz.js');
+        $ps_files_v1_6 = array('/header.php', '/css/retro-compat.css.php', '/classes/Theme.php', '/admin/tabs/index.php', '/controllers/admin/AdminZonesController.php', '/admin/themes/default/template/controllers/customers/helpers: required_fields.tpl', '/classes/helper/HelperKpi.php', '/controllers/admin/AdminMarketingController.php', '/js/jquery/plugins/jquery.tablefilter.js', '/tools/tcpdf/fonts/cid0cs.php', '/admin/themes/default/img/select2x2.png');
+        $ps_files_v1_5 = array('/category.php', '/product.php', '/admin/uploadProductFile.php', '/classes/Backup.php', '/css/admin.css', '/override/controllers/front/OrderOpcController.php', '/js/tiny_mce/plugins/media/editor_plugin.js', '/css/admin-ie.css', '/tools/swift/EasySwift.php', '/modules/blockmyaccount/translations/it.php');
+        $ps_files_v1_4 = array('/css/datePicker.css', '/admin/ajax_send_mail_test.php', '/pagination.php', '/classes/CacheFS.php', '/config/autoload.php', '/modules/carriercompare/es.php', '/js/jquery/ifxtransfer.js', '/img/t/AdminLanguages.gif', '/img/scenes/1-large_scene.jpg', '/controllers/GuestTrackingController.php', '/classes/WebserviceSpecificManagementImages.php');
 
         $ps_html = array('/name="generator"\s*content="PrestaShop"/i', '/var prestashop\s*=\s*{/i', '/Powered by PrestaShop/i');
 
@@ -121,6 +115,12 @@ class PrestaShopVersion implements TestInterface
         return $counter;
     }
 
+    /**
+     * checkPrestaShopCookie
+     *
+     * @param  string $url
+     * @return boolean
+     */
     public static function checkPrestaShopCookie($url)
     {
         $headers = TestsHelperFunctions::getHeaders($url);

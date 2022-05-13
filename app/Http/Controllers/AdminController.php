@@ -16,7 +16,7 @@ class AdminController extends Controller
         try {
             LoadAllTests::loadTests();
             return response()->json(['status' => '<p style="color:#16a44a">Success</p>']);
-        } catch (\Throwable$th) {
+        } catch (\Throwable $th) {
             return response()->json(['status' => '<p style="color:red">Something went wrong. Check test files syntax.</p>']);
         }
     }

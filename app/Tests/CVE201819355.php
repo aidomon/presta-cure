@@ -20,7 +20,7 @@ class CVE201819355 implements TestInterface
 
     public static function getFixLink()
     {
-        return 'http://prestacure.loc/dashboard/tests#cve-2018-19355';
+        return 'https://nvd.nist.gov/vuln/detail/CVE-2018-19355';
     }
 
     public static function getDescription()
@@ -28,12 +28,6 @@ class CVE201819355 implements TestInterface
         return 'Security vulnerability ranked as high (7.5/10) which occurs in the module OrderFiles for PrestaShop (1.5 through 1.7) allows remote attackers to execute arbitrary code by uploading a php file via modules/orderfiles/upload.php with auptype equal to product (for upload destinations under modules/productfiles), order (for upload destinations under modules/files), or cart (for upload destinations under modules/cartfiles).<br>Solution for this vulnerability is update the module or remove or fix vulnerable files.';
     }
 
-    /**
-     * Detect method
-     *
-     * @param  Project $project
-     * @return json
-     */
     public static function detect(Project $project)
     {
         $prestashop_version = Result::getPrestaShopVersion($project->id);

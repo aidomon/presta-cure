@@ -13,7 +13,7 @@
                     @else
                         <p>{!! $test->description !!}</p>
                     @endif
-                    <a href="{{ $test->fix_link }}">Fix link</a>
+                    <a href="{{ $test->fix_link }}" target="_blank">Fix link</a>
                 </div>
             @endforeach
         @else

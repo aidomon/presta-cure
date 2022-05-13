@@ -27,12 +27,6 @@ class GitRepoCheck implements TestInterface
         return 'This test scans the web application root for the .git file, which developers often forgot to delete or accidentally upload on the web. With this file an attacker can restore the source code of the application and find some confidential data.';
     }
 
-    /**
-     * Detect method
-     *
-     * @param  Project $project
-     * @return json
-     */
     public static function detect(Project $project)
     {
         if (TestsHelperFunctions::checkFilesOccurance(array('/.git'), $project->url) > 0) {

@@ -34,12 +34,6 @@ class SecurityHeadersCheck implements TestInterface
             '</ul>';
     }
 
-    /**
-     * Detect method
-     *
-     * @param  Project $project
-     * @return json
-     */
     public static function detect(Project $project)
     {
         $result = self::checkHeader(TestsHelperFunctions::getHeaders($project->url));

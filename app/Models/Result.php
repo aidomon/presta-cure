@@ -35,7 +35,7 @@ class Result extends Model
     {
         $prestashopo_check_test_id = Test::where('name', 'PrestaShop check')->first()->id;
 
-        $histories = History::where('project_id', 1)->get();
+        $histories = History::where('project_id', $project_id)->latest()->get();
 
         foreach ($histories as $history) {
             try {

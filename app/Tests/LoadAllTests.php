@@ -21,7 +21,6 @@ class LoadAllTests
 
         //disable foreign key check for this connection before running seeders
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        //Test::truncate();
 
         foreach ($classes as $class) {
             $class_name = strstr($class, '.', true);
@@ -29,12 +28,16 @@ class LoadAllTests
 
             $test_type = new $instance;
 
-            Test::updateOrCreate([
-                'name' => $test_type::getName(),
-                'description' => $test_type::getDescription(),
-                'fix_link' => $test_type::getFixLink(),
-                'class' => $class_name,
-            ]);
+            Test::updateOrCreate(
+                [
+                    'class' => $class_name,
+                ],
+                [
+                    'name' => $test_type::getName(),
+                    'description' => $test_type::getDescription(),
+                    'fix_link' => $test_type::getFixLink(),
+                ]
+            );
         }
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
